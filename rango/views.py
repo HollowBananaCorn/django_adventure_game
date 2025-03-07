@@ -13,3 +13,7 @@ def achievements(request):
 def play(request):
 
     return render(request, 'rango/play.html')
+
+def dungeon(request):
+
+    return render(request, 'rango/dungeon.html')

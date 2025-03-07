@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.index, name = 'index'),
     path('achievements/', views.achievements, name = 'achievements'),
     path('play/', views.play, name = 'play'),
+    path('play/dungeon', views.dungeon, name = 'dungeon'),
 ]
