@@ -17,3 +17,11 @@ def play(request):
 def dungeon(request):
 
     return render(request, 'rango/dungeon.html')
+
+def shop(request):
+
+    return render(request, 'rango/shop.html')
+
+def stranger(request):
+
+    return render(request, 'rango/stranger.html')
