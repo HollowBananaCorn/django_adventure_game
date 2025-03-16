@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 def index(request):
@@ -25,3 +25,7 @@ def shop(request):
 def stranger(request):
 
     return render(request, 'rango/stranger.html')
+
+def stats(request):
+ 
+     return render(request, 'rango/stats.html')
