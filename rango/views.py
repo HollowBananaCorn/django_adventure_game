@@ -110,7 +110,3 @@ def stranger(request):
         return JsonResponse({"success": True, "message": "You have been granted passage!"})
     
     return JsonResponse({"success": False, "message": "That is not enough gold!"})
-
-def stats(request):
-
-    return render(request, 'rango/stats.html')
