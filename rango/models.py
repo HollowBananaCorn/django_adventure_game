@@ -57,12 +57,3 @@ class Achievement(models.Model):
     def __str__(self):
         return f"{self.player.user.username} - {self.name}"
 
-
-
-
-
-<<<<<<< HEAD
-   
-=======
-    
->>>>>>> a87d4c2ff028371b3243e44193af0011ecb19614
