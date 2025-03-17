@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Warriors - Index</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #ccc;
+      padding: 10px 20px;
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: #d93025;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    nav button {
+      padding: 6px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+
+    nav button:hover {
+      background-color: #eee;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    #hero {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #hero img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #999;
+    }
+
+    #info {
+      display: flex;
+      gap: 20px;
+    }
+
+    .box {
+      flex: 1;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 200px;
+    }
+
+    .box h2 {
+      margin-bottom: 10px;
+      font-size: 18px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .box p {
+      line-height: 1.6;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>warriors</h1>
+    <nav>
+      <button>Register</button>
+      <button>Log In</button>
+      <button>Setting</button>
+      <button>Play</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero">
+      <img src="{% static 'images/warrior.png' %}" alt="Warrior Knight Image" />
+    </section>
+
+    <section id="info">
+      <div class="box" id="leaderboard">
+        <h2>Leaderboard</h2>
+        <p>This is where you can put ranking information.</p>
+      </div>
+      <div class="box" id="middle-panel">
+        <h2>Game Info / Chat</h2>
+        <p>This is where you can put some game introductions, real-time chats, or other information</p>
+      </div>
+      <div class="box" id="guide">
+        <h2>Game Guide</h2>
+        <p>This is where you can put gameplay, rules, or help information.</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

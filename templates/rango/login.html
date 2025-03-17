@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warriors - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+     
+        .background {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+      
+        .login-form {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .login-form input {
+            width: 200px;
+            padding: 8px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .login-form button {
+            width: 200px;
+            padding: 8px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background: #d93025;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background: #a8221a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+     
+        <img src="{% static 'images/warrior_login.png' %}" alt="Warrior Battle Scene" class="background">
+
+ 
+        <div class="login-form">
+            <input type="email" placeholder="Mail" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+            <button type="button">Register</button>
+            <button type="button">Back</button>
+        </div>
+    </div>
+
+</body>
+</html>
