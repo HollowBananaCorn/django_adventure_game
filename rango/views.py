@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from rango.forms import UserForm, UserProfileForm
 
 def index(request):
-    context_dict = {'boldmessage': 'how to use ontext dictionary'}
+    context_dict = {'boldmessage': 'how to use context dictionary'}
 
     return render(request, 'rango/index.html', context= context_dict)
 
