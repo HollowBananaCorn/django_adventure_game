@@ -1,200 +1,102 @@
 <!DOCTYPE html>
-
 {% load staticfiles %}
 
 <html>
-    <head> 
-        <title>shop</title>
-        <style>
-            
-            .container {
-                width: 100vw; 
-                height: 100vh; 
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                position: absolute;
-                overflow: hidden;
-            }
+<head>
+    <title>Shop</title>
 
-            body {
-                font-family: Arial, sans-serif;
-                background-color: black;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                overflow: hidden;
-                position: relative;
-            }
-            .background {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                z-index: -1;
-            }
+    <link rel="stylesheet" href="{% static 'CSS_styles/styles.css' %}">
 
-            .time {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background: white;
-                border: 2px solid black;
-                padding: 8px;
-                font-size: 16px;
-            }
+    <style>
 
-            .money {
-                position: absolute;
-                bottom: 60px;
-                left: 10px;
-                background: white;
-                border: 2px solid black;
-                padding: 8px;
-                margin: 5px;
-                font-size: 16px;
-            }
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
 
-            .health {
-                position: absolute;
-                bottom: 20px;
-                left: 10px;
-                width: 150px;
-                height: 20px;
-                background: white;
-                border: 2px solid black;
-                padding: 8px;
-                margin: 5px;
-            }
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
 
-            .health-bar-background {
-                width: 100%; 
-                height: 100%;
-                background-color: black;
-                border: 1px solid black;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
+        .stats-info {
+            position: absolute;
+            top: 10px;
+            left: 135px;
+        }
 
-            .health-bar {
-                width: 100%; /* again change this for health */
-                height: 100%;
-                background-color: red;
-                border: 1px solid black;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
+        .Attack_upgrade_button {
+            position: absolute;
+            right: 5%;
+            top: 15%;
+        }
 
-            .stats {
-                position: absolute;
-                top: 60px;
-                left: 10px;
-                width: 120px;
-                background: white;
-                border: 2px solid black;
-                padding: 8px;
-            }
+        .Defence_upgrade_button {
+            position: absolute;
+            right: 5%;
+            top: 35%;
+        }
 
-            .stats-info {
-                position: absolute;
-                top: 240px;
-                left: 10px;
-                background: white;
-                border: 2px solid black;
-                padding: 8px;
-                text-decoration: none;
-                color: black;
-                font-weight: bold;
-            }
+        .Agility_upgrade_button {
+            position: absolute;
+            right: 5%;
+            top: 55%;
+        }
 
-            .back-button {
-                position: absolute;
-                top: 10px;
-                left: 10px;
-                background: white;
-                border: 2px solid black;
-                padding: 8px;
-                text-decoration: none;
-                color: black;
-                font-weight: bold;
-            }
+        .heal-button {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+        }
+    </style>
+</head>
+<body>
+    <img class="background" src="{% static 'images/shop.jpg' %}" alt="shop background" />
 
-            .buttons {
-                position: absolute;
-                right: 20px;
-                top: 50%;
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-                transform: translateY(-50%);
-            }
+    <div class="back-button">
+    <a href="/rango/play/" class="buttons">Back</a>
+    </div>
 
-            .button {
-                padding: 10px;
-                background: white;
-                border: 2px solid black;
-                font-size: 16px;
-                cursor: pointer;
-                text-decoration: none;
-                color: black;
-                text-align: center;
-                display: block;
-                width: 200px;
-            }
+    <div class="time">Time left: -somehow add time-</div>
+    <div class="money">Money: 0 💰</div>
 
-            .heal-button {
-                position: absolute;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: white;
-                border: 2px solid black;
-                padding: 10px;
-                font-size: 16px;
-                font-weight: bold;
-                text-align: center;
-                text-decoration: none;
-                color: black;
-                width: 200px;
-            }
+    <div class="health">
+        <div class="health-bar-background"></div>
+        <div class="health-bar"><span>100/100</span></div>
+    </div>
 
-        </style>
-    </head>
-    <body>
-        <img class="background" src="{% static 'images/shop.jpg' %}" alt="shop background" />
-        
-        <a href="/rango/play/" class="back-button">Back</a>
-        
-        <div class="time">Time left: -somehow add time-</div>
-        <div class="money">Money: 0 💰</div>
-        
-        <div class="health">
-            <div class="health-bar-background"></div>
-            <div class="health-bar"><span>100/100</span></div>
-        </div>
-        
-        <div class="stats">
-            <p>Stats</p>
-            <p>Attack: 10</p>
-            <p>Block: 10</p>
-            <p>Agility: 10</p>
-        </div>
+    <div class="stats">
+        <p>Stats</p>
+        <p>Attack: 10</p>
+        <p>Block: 10</p>
+        <p>Agility: 10</p>
+    </div>
 
-        <div class="stats-info">
-            <a href="{% url 'rango:stats_info' %}">Stats Info</a>
-        </div>
-        
-        <div class="buttons">
-            <a href="#" class="button">Upgrade Attack (75 Gold)</a>
-            <a href="#" class="button">Upgrade Defence (75 Gold)</a>
-            <a href="#" class="button">Upgrade Agility (75 Gold)</a>
-        </div>
+    <div class="stats-info">
+        <a href="{% url 'rango:stats_info' %}" class="buttons">Stats Info</a>
+    </div>
 
-        <a href="#" class="heal-button">Heal (50 Gold)</a>
-    </body>
+    <div class="Attack_upgrade_button">
+        <a href="#" class="buttons">Upgrade Attack (75 Gold)</a>
+    </div>
+
+    <div class="Defence_upgrade_button">
+        <a href="#" class="buttons">Upgrade Defence (75 Gold)</a>
+    </div>
+
+    <div class="Agility_upgrade_button">
+        <a href="#" class="buttons">Upgrade Agility (75 Gold)</a>
+    </div>
+
+    <div class="heal-button">
+        <a href="#" class="buttons">Heal (50 Gold)</a>
+    </div>
+
+</body>
 </html>
