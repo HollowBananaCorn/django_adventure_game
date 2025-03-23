@@ -19,51 +19,32 @@
             z-index: -1;
         }
 
-        .shop-button {
-            position: absolute;
-            top: 10px;
-            left: 25px;
-        }
-
-        .quit {
+        .talk {
             position: absolute;
             bottom: 5%;
             left: 75%;
         }
 
-        .talk {
+        .back {
             position: absolute;
-            bottom: 35%;
-            left: 23%;
+            bottom: 20%;
+            left: 37%;
         }
 
-        .dungeon {
-            position: absolute;
-            top: 20%;
-            right: 30%;
-        }
     </style>
 </head>
 
 <body>
     <div class="container">
 
-        <img src="{% static 'images/play.jpeg' %}" alt="play background" />
-
-        <div class="shop-button">
-            <a href="{% url 'rango:shop' %}" class="buttons">Shop</a>
-        </div>
-
-        <div class="quit">
-            <a href="/rango/" class="buttons">Quit game</a>
-        </div>
+        <img src="{% static 'images/boss_area.jpg' %}" alt="boss area background" />
 
         <div class="talk">
-            <a href="{% url 'rango:stranger' %}" class="buttons">Talk to stranger</a>
+            <a href="{% url 'rango:boss_talk' %}" class="buttons">Talk</a>
         </div>
 
-        <div class="dungeon">
-            <a href="{% url 'rango:dungeon1' %}" class="buttons">Enter the Dungeon</a>
+        <div class="back">
+            <a href="{% url 'rango:updated_play' %}" class="buttons">Go back</a>
         </div>
 
         <div class="time">Time left: -somehow add time-</div>

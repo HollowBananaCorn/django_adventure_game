@@ -19,28 +19,32 @@
             z-index: -1;
         }
 
-        .shop-button {
+        .enemy_health_position {
             position: absolute;
-            top: 10px;
-            left: 25px;
+            top: 15%;
+            left: 43.5%;
         }
 
-        .quit {
+        .enemy_health { /* this effects the enemys health bar */
+            width: 100%;
+        }
+
+        .Attack {
             position: absolute;
-            bottom: 5%;
+            bottom: 20%;
+            left: 25%;
+        }
+
+        .Block {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+        }
+
+        .Dodge {
+            position: absolute;
+            bottom: 20%;
             left: 75%;
-        }
-
-        .talk {
-            position: absolute;
-            bottom: 35%;
-            left: 23%;
-        }
-
-        .dungeon {
-            position: absolute;
-            top: 20%;
-            right: 30%;
         }
     </style>
 </head>
@@ -48,22 +52,18 @@
 <body>
     <div class="container">
 
-        <img src="{% static 'images/play.jpeg' %}" alt="play background" />
+        <img src="{% static 'images/boss.jpg' %}" alt="battle background" />
 
-        <div class="shop-button">
-            <a href="{% url 'rango:shop' %}" class="buttons">Shop</a>
+        <div class="Attack">
+            <a href="#" class="buttons">Attack</a>
         </div>
 
-        <div class="quit">
-            <a href="/rango/" class="buttons">Quit game</a>
+        <div class="Block">
+            <a href="#" class="buttons">Block</a>
         </div>
 
-        <div class="talk">
-            <a href="{% url 'rango:stranger' %}" class="buttons">Talk to stranger</a>
-        </div>
-
-        <div class="dungeon">
-            <a href="{% url 'rango:dungeon1' %}" class="buttons">Enter the Dungeon</a>
+        <div class="Dodge">
+        <a href="#" class="buttons">Dodge</a>
         </div>
 
         <div class="time">Time left: -somehow add time-</div>
@@ -73,6 +73,11 @@
         <div class="health">
             <div class="health-bar-background"></div>
             <div class="health-bar"><span>100/100</span></div>
+        </div>
+
+        <div class="enemy_health_position health">
+            <div class="health-bar-background"></div>
+            <div class="enemy_health health-bar"><span>100/100</span></div>
         </div>
 
         <div class="stats">

@@ -85,9 +85,29 @@ def play(request):
 
     return render(request, 'rango/play.html')
 
-def dungeon(request):
+def dungeon1(request):
 
-    return render(request, 'rango/dungeon.html')
+    return render(request, 'rango/dungeon1.html')
+
+def updated_dungeon1(request):
+
+    return render(request, 'rango/updated_dungeon1.html')
+
+def dungeon2(request):
+
+    return render(request, 'rango/dungeon2.html')
+
+def updated_dungeon2(request):
+
+    return render(request, 'rango/updated_dungeon2.html')
+
+def dungeon3(request):
+
+    return render(request, 'rango/dungeon3.html')
+
+def updated_dungeon3(request):
+
+    return render(request, 'rango/updated_dungeon3.html')
 
 def shop(request):
 
@@ -100,3 +120,27 @@ def stranger(request):
 def stats(request):
  
      return render(request, 'rango/stats.html')
+
+def bossArea(request):
+
+    return render(request, 'rango/boss_area.html')
+
+def bossTalk(request):
+
+    return render(request, 'rango/boss_talk.html')
+
+def boss(request):
+
+    return render(request, 'rango/boss.html')
+
+def updatedPlay(request):
+
+    return render(request, 'rango/updated_play.html')
+
+def updatedShop(request):
+
+    return render(request, 'rango/updated_shop.html')
+
+def updatedStats(request):
+
+    return render(request, 'rango/updated_stats.html')

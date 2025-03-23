@@ -31,7 +31,7 @@
             left: 75%;
         }
 
-        .talk {
+        .use {
             position: absolute;
             bottom: 35%;
             left: 23%;
@@ -48,22 +48,22 @@
 <body>
     <div class="container">
 
-        <img src="{% static 'images/play.jpeg' %}" alt="play background" />
+        <img src="{% static 'images/updated_play.jpg' %}" alt="play background" />
 
         <div class="shop-button">
-            <a href="{% url 'rango:shop' %}" class="buttons">Shop</a>
+            <a href="{% url 'rango:updated_shop' %}" class="buttons">Shop</a>
         </div>
 
         <div class="quit">
             <a href="/rango/" class="buttons">Quit game</a>
         </div>
 
-        <div class="talk">
-            <a href="{% url 'rango:stranger' %}" class="buttons">Talk to stranger</a>
+        <div class="use">
+            <a href="{% url 'rango:boss_area' %}" class="buttons">Use boat</a>
         </div>
 
         <div class="dungeon">
-            <a href="{% url 'rango:dungeon1' %}" class="buttons">Enter the Dungeon</a>
+            <a href="{% url 'rango:updated_dungeon3' %}" class="buttons">Enter the Dungeon</a>
         </div>
 
         <div class="time">Time left: -somehow add time-</div>

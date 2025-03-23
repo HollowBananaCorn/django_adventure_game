@@ -19,7 +19,7 @@
             z-index: -1;
         }
 
-        .Pay_button, .buttons {
+        .challenge, .buttons {
             position: absolute;
             left: 20px;
             top: 25%;
@@ -41,7 +41,7 @@
 </head>
 <body>
 
-    <img class="background" src="{% static 'images/stranger.jpeg' %}" alt="Stranger Background" />
+    <img class="background" src="{% static 'images/boss_challenge.jpg' %}" alt="boss challenge Background" />
 
     <div class="time">Time left: -somehow add time-</div>
     <div class="money">Money: 0 💰</div>
@@ -52,11 +52,11 @@
     </div>
 
     <div class="back_button">
-        <a href="/rango/play/" class="buttons">Back</a>
+        <a href="{% url 'rango:boss_area' %}" class="buttons">Go back</a>
     </div>
 
-    <div class="Pay_button">
-        <a href="/rango/play/stranger/boss_area/" class="buttons">Pay 500 Gold</a>
+    <div class="challenge">
+        <a href="{% url 'rango:boss' %}" class="buttons">Challenge</a>
     </div>
 
 </body>
