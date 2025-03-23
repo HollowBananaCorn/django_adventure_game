@@ -6,6 +6,8 @@ from django.http import HttpResponse
 
 from rango.forms import UserForm, UserProfileForm
 
+from .models import Enemy
+
 def index(request):
     context_dict = {'boldmessage': 'how to use context dictionary'}
 
@@ -85,9 +87,11 @@ def play(request):
 
     return render(request, 'rango/play.html')
 
-def dungeon1(request):
+def dungeon1(request):  # First Dungeon?
 
-    return render(request, 'rango/dungeon1.html')
+    enemy = Enemy.objects.first()
+
+    return render(request, 'rango/dungeon1.html', {'enemy' : enemy})
 
 def updated_dungeon1(request):
 

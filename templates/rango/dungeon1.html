@@ -52,6 +52,46 @@
             bottom: 20%;
             left: 75%;
         }
+
+        #popup-win-battle{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border: 2px solid black;
+            text-align: center;
+        }
+
+        #popup-game-over{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border: 2px solid black;
+            text-align: center;
+        }
+
+        #popup-enemy-attack{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border: 2px solid black;
+            text-align: center;
+        }
+
     </style>
 </head>
 
@@ -64,8 +104,9 @@
             <a href="{% url 'rango:play' %}" class="buttons">Run away</a>
         </div>
 
+        <!-- attack, change when models are ready -->
         <div class="Attack">
-            <a href="#" class="buttons">Attack</a>
+            <a href="#" id = "attack-button" class="buttons">Attack (Deal 10 Damage)</a>
         </div>
 
         <div class="Block">
@@ -80,22 +121,94 @@
 
         <div class="money">Money: 0 💰</div>
 
+        <!-- player health -->
         <div class="health">
             <div class="health-bar-background"></div>
-            <div class="health-bar"><span>100/100</span></div>
+            <div class="health-bar">
+                <span id="player-current-health">100/100</span>
+            </div>
         </div>
 
+        <!-- enemy health -->
         <div class="enemy_health_position health">
             <div class="health-bar-background"></div>
-            <div class="enemy_health health-bar"><span>100/100</span></div>
+            <div class="enemy_health health-bar">
+                <span id="enemy-current-health">{{ enemy.max_health }}/{{ enemy.max_health }}</span>
+            </div>
         </div>
 
         <div class="stats">
-            <p>Stats</p>
-            <p>Attack: 10</p>
-            <p>Block: 10</p>
-            <p>Agility: 10</p>
+            <h2>Enemy: {{ enemy.name }}</h2> 
+            
+            <li>Max Health: {{ enemy.max_health }}</li>
+            <li>Min Damage: {{ enemy.min_damage }}</li>
+            <li>Max Damage: {{ enemy.max_damage }}</li>
+            <li>Defense: {{ enemy.defense }}</li>
+            <li>Gold Drop: {{ enemy.gold_drop }}</li>
+            
         </div>
+
+        <div id="popup-win-battle">
+            <h2>Enemy Felled!</h2>
+            <a href="{% url 'rango:play' %}"><button>Exit</button></a>
+        </div>
+
+        <div id="popup-enemy-attack">
+            <h2>You were attacked!</h2>
+            <p id="enemy-attack-message"></p>
+            <button onclick="handlePostAttack()">OK</button>
+        </div>
+        
+        <div id="popup-game-over" style="display: none;">
+            <h2>YOU DIED</h2>
+            <a href="{% url 'index' %}"><button>Exit</button></a>
+        </div>
+
     </div>
+
+    <script>
+        var enemyHealth = parseInt("{{ enemy.max_health }}");
+        var enemyMinDamage = parseInt("{{ enemy.min_damage }}");
+        var enemyMaxDamage = parseInt("{{ enemy.max_damage }}");
+        var playerHealth = 100; // placeholder or maxhealth if we wont change it.
+    
+        document.getElementById("attack-button").addEventListener("click", function(){
+            var damageToEnemy = 10 * (100 - parseInt("{{ enemy.defense }}")) / 100;
+            enemyHealth -= damageToEnemy;
+            if(enemyHealth < 0) enemyHealth = 0;
+    
+            document.getElementById("enemy-current-health").innerText = enemyHealth + "/" + parseInt("{{ enemy.max_health }}");
+    
+            if(enemyHealth === 0)
+            {
+                document.getElementById("popup-win-battle").style.display = "block";
+            }
+            else
+            {
+                // Enemy attacks the player
+                var damageFromEnemy = Math.floor(Math.random() * (enemyMaxDamage - enemyMinDamage + 1) + enemyMinDamage);
+                playerHealth -= damageFromEnemy;
+                if(playerHealth < 0) playerHealth = 0;
+    
+                // Update player health display
+                document.getElementById("player-current-health").innerText = playerHealth + "/100";
+    
+                // Show enemy attack pop-up
+                document.getElementById("enemy-attack-message").innerText = "The enemy attacked you for " + damageFromEnemy + " damage!";
+                document.getElementById("popup-enemy-attack").style.display = "block";
+            }
+        });
+    
+        function handlePostAttack()
+        {
+            // Check if player is dead
+            if(playerHealth === 0)
+                {
+                    document.getElementById("popup-game-over").style.display = "block";
+                }
+            document.getElementById("popup-enemy-attack").style.display = "none";
+        }
+    </script>
+
 </body>
 </html>
