@@ -161,7 +161,7 @@
         
         <div id="popup-game-over" style="display: none;">
             <h2>YOU DIED</h2>
-            <a href="{% url 'index' %}"><button>Exit</button></a>
+            <button onclick="QuitGame()">Quit</button>
         </div>
 
     </div>
@@ -224,6 +224,8 @@
             document.getElementById("popup-enemy-attack").style.display = "none";
         }
     </script>
+
+<script src="{% static 'JavaScript/game.js' %}"></script>
 
 </body>
 </html>

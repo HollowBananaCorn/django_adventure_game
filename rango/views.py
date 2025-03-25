@@ -162,7 +162,10 @@ def updatedStats(request):
     return render(request, 'rango/updated_stats.html')
 
 
-#not an actual page
+
+
+
+#not Pages, view required to communicate with Server
 @login_required
 @csrf_exempt
 def update_health(request):
@@ -186,3 +189,15 @@ def update_health(request):
         
     #displays it like the one from the webb task in the hackathon
     return JsonResponse({"status": "error", "message": "Invalid request"}, )
+
+
+@login_required
+def delete_character(request):
+    
+    try:
+        character = Character.objects.get(user=request.user.userprofile)
+        character.delete()
+    except Character.DoesNotExist:
+        pass
+
+    return redirect('index')

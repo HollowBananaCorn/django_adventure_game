@@ -55,7 +55,7 @@
         </div>
 
         <div class="quit">
-            <a href="/rango/" class="buttons">Quit game</a>
+            <a href="#" onclick="if (confirm('Are u sure you want to quit the game? Your progress will be lost!')) {QuitGame()}" class="buttons">Quit game</a>
         </div>
 
         <div class="talk">
@@ -82,5 +82,8 @@
             <p>Agility: {{ player.agility }}</p>
         </div>
     </div>
+
+<script src="{% static 'JavaScript/game.js' %}"></script>
+
 </body>
 </html>

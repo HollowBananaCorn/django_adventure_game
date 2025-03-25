@@ -27,6 +27,7 @@ urlpatterns = [
     path('updated_play/', views.updatedPlay, name='updated_play'),
     path('updated_play/updated_shop', views.updatedShop, name='updated_shop'),
     path('updated_play/updated_shop/updated_stats', views.updatedStats, name='updated_stats_info'),
-    
+
     path('update_health/', views.update_health, name='update_health'),
+    path('delete_character/', views.delete_character, name ='delete_character')
 ]
