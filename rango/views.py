@@ -1,3 +1,8 @@
+import json
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -155,3 +160,29 @@ def updatedShop(request):
 def updatedStats(request):
 
     return render(request, 'rango/updated_stats.html')
+
+
+#not an actual page
+@login_required
+@csrf_exempt
+def update_health(request):
+    #should only be when the USER want to update health - 
+    #submits data from the client’s web browser to be processed
+    if request.method == 'POST': 
+        try:
+            data = json.loads(request.body)
+            new_health = data.get("new_health")
+
+            user_profile = UserProfile.objects.get(user=request.user)
+            character = Character.objects.get(user=user_profile)
+
+            character.current_health = new_health
+            character.save()
+
+            return JsonResponse({"status": "success", "new_health": character.current_health})
+        except Exception as e:
+            # not in book, but good for debug stuff
+            return JsonResponse({"status": "error", "message": str(e)}) 
+        
+    #displays it like the one from the webb task in the hackathon
+    return JsonResponse({"status": "error", "message": "Invalid request"}, )

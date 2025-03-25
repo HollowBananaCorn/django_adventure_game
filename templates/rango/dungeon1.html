@@ -125,7 +125,7 @@
         <div class="health">
             <div class="health-bar-background"></div>
             <div class="health-bar">
-                <span id="player-current-health">100/100</span>
+                <span id="player-current-health">{{ player.current_health }}/{{ player.max_health }}</span>
             </div>
         </div>
 
@@ -199,6 +199,15 @@
                 // Update player health display
                 document.getElementById("player-current-health").innerText = playerHealth + "/" + parseInt("{{ player.max_health }}");
     
+                // Update haalth to database. Could use XMLHttpRequest, but fetch is easier.
+                fetch("{% url 'rango:update_health' %}", {method : "POST", 
+                    headers : {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"  // Ensure security with CSRF token
+                },
+                body : JSON.stringify({ "new_health": playerHealth })}
+                );
+
                 // Show enemy attack pop-up
                 document.getElementById("enemy-attack-message").innerText = "The enemy attacked you for " + damageFromEnemy + " damage!";
                 document.getElementById("popup-enemy-attack").style.display = "block";
