@@ -13,20 +13,20 @@ class UserProfile(models.Model): #copied from previous
         return self.user.username
     
 class Character(models.Model):
-    # user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # health = models.IntegerField(default=100) # always max 100 hp, only keep track of current
-    # attack = models.IntegerField(default=10) # base damage before calculations
-    # defence = models.IntegerField(default=10) # %damage ignored
-    # agility = models.IntegerField(default=5) # dodgeChance
-    # gold = models.IntegerField(default=0)
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
+    max_health = models.IntegerField(default=100) # always max 100 hp, but better still have it.
+    current_health = models.IntegerField(default=100)
+    attack = models.IntegerField(default=10) # base damage before calculations
+    defense = models.IntegerField(default=10) # %damage ignored
+    agility = models.IntegerField(default=5) # dodgeChance
+    gold = models.IntegerField(default=0)
 
-    # def __str__(self):
-    #     return f"{self.user.username}'s Character"
-    pass
+    def __str__(self):
+        return f"{self.user.user.username}'s Character"
+    
     
 class Enemy(models.Model):
     name = models.CharField(max_length=50, default="rabbit")
-    #health = models.IntegerField(default=50) #probably dont need it since it sytarts with max_health, later substracts during battle.
     max_health = models.IntegerField(default=50)
     min_damage = models.IntegerField(default=5)
     max_damage = models.IntegerField(default=15)

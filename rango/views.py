@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 from rango.forms import UserForm, UserProfileForm
 
-from .models import Enemy
+from .models import Enemy, Character, UserProfile
 
 def index(request):
     context_dict = {'boldmessage': 'how to use context dictionary'}
@@ -84,14 +84,21 @@ def achievements(request):
 
 @login_required
 def play(request):
+    user_profile, created = UserProfile.objects.get_or_create(user = request.user)
 
-    return render(request, 'rango/play.html')
+    character, char_created = Character.objects.get_or_create(user=user_profile)
 
+    return render(request, 'rango/play.html', {'player': character}) 
+
+@login_required
 def dungeon1(request):  # First Dungeon?
 
     enemy = Enemy.objects.first()
+    
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+    character = get_object_or_404(Character, user=user_profile)
 
-    return render(request, 'rango/dungeon1.html', {'enemy' : enemy})
+    return render(request, 'rango/dungeon1.html', {'enemy' : enemy, 'player' : character})
 
 def updated_dungeon1(request):
 

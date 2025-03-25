@@ -167,13 +167,17 @@
     </div>
 
     <script>
-        var enemyHealth = parseInt("{{ enemy.max_health }}");
+       var enemyHealth = parseInt("{{ enemy.max_health }}");
         var enemyMinDamage = parseInt("{{ enemy.min_damage }}");
         var enemyMaxDamage = parseInt("{{ enemy.max_damage }}");
-        var playerHealth = 100; // placeholder or maxhealth if we wont change it.
-    
+        var enemyDefense = parseInt("{{ enemy.defense }}");
+
+        var playerHealth = parseInt("{{ player.current_health }}");
+        var playerAttack = parseInt("{{ player.attack }}");
+        var playerDefense = parseInt("{{ player.defense }}");
+        
         document.getElementById("attack-button").addEventListener("click", function(){
-            var damageToEnemy = 10 * (100 - parseInt("{{ enemy.defense }}")) / 100;
+            var damageToEnemy = Math.floor(playerAttack * (100 - enemyDefense) / 100);
             enemyHealth -= damageToEnemy;
             if(enemyHealth < 0) enemyHealth = 0;
     
@@ -187,11 +191,13 @@
             {
                 // Enemy attacks the player
                 var damageFromEnemy = Math.floor(Math.random() * (enemyMaxDamage - enemyMinDamage + 1) + enemyMinDamage);
+                damageFromEnemy = Math.floor(damageFromEnemy * (100 - playerDefense) / 100); // because defence
+
                 playerHealth -= damageFromEnemy;
                 if(playerHealth < 0) playerHealth = 0;
     
                 // Update player health display
-                document.getElementById("player-current-health").innerText = playerHealth + "/100";
+                document.getElementById("player-current-health").innerText = playerHealth + "/" + parseInt("{{ player.max_health }}");
     
                 // Show enemy attack pop-up
                 document.getElementById("enemy-attack-message").innerText = "The enemy attacked you for " + damageFromEnemy + " damage!";
