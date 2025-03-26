@@ -64,18 +64,20 @@
     </div>
 
     <div class="time">Time left: -somehow add time-</div>
-    <div class="money">Money: 0 💰</div>
+    <div id="money" class="money">Money:  {{ player.gold }} 💰</div>
 
     <div class="health">
         <div class="health-bar-background"></div>
-        <div class="health-bar"><span>100/100</span></div>
+        <div class="health-bar">
+            <span id="player-current-health">{{ player.current_health }}/{{ player.max_health }}</span>
+        </div>
     </div>
 
     <div class="stats">
         <p>Stats</p>
-        <p>Attack: 10</p>
-        <p>Block: 10</p>
-        <p>Agility: 10</p>
+        <p>Attack: {{ player.attack }}</p>
+        <p>Defense: {{ player.defense }}</p>
+        <p>Agility: {{ player.agility }}</p>
     </div>
 
     <div class="stats-info">
@@ -95,8 +97,33 @@
     </div>
 
     <div class="heal-button">
-        <a href="#" class="buttons">Heal (50 Gold)</a>
+        <a href="#" id="heal-button" class="buttons">Heal (10 Gold)</a>
     </div>
+
+    <script>
+        var playerHealth = parseInt("{{ player.current_health }}");
+        var playerMaxHealth = parseInt("{{ player.max_health }}");
+        var playerAttack = parseInt("{{ player.attack }}");
+        var playerDefense = parseInt("{{ player.defense }}");
+        var playerGold = parseInt("{{ player.gold }}");
+
+        document.getElementById("heal-button").addEventListener("click", function(){
+            if(playerGold >= 10 && playerHealth < playerMaxHealth)
+            {
+                
+                playerGold -= 10;
+                playerHealth += 20;
+                if(playerHealth>playerMaxHealth) playerHealth = playerMaxHealth;
+                document.getElementById("player-current-health").innerText = playerHealth + "/" + playerMaxHealth;
+                document.getElementById("money").innerText = "Money:  " + playerGold + " 💰";
+
+                UpdateHealth(playerHealth);
+                UpdateGold(playerGold);
+            }
+        });
+    </script>
+
+<script src="{% static 'JavaScript/game.js' %}"></script>
 
 </body>
 </html>

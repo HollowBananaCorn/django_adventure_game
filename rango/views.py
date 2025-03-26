@@ -111,12 +111,18 @@ def updated_dungeon(request):
 
 
 def shop(request):
+    user_profile, created = UserProfile.objects.get_or_create(user = request.user)
 
-    return render(request, 'rango/shop.html')
+    character, char_created = Character.objects.get_or_create(user=user_profile)
+
+    return render(request, 'rango/shop.html', {'player': character})
 
 def stranger(request):
+    user_profile, created = UserProfile.objects.get_or_create(user = request.user)
 
-    return render(request, 'rango/stranger.html')
+    character, char_created = Character.objects.get_or_create(user=user_profile)
+
+    return render(request, 'rango/stranger.html', {'player': character})
 
 def stats(request):
  
