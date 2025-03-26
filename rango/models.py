@@ -32,7 +32,11 @@ class Enemy(models.Model):
     max_damage = models.IntegerField(default=15)
     defense = models.IntegerField(default=5)
     gold_drop = models.IntegerField(default=10)
-    #image = models.ImageField(upload_to='enemy_images/', blank=True) # whole page background image, implement later
+    image_filename = models.CharField(max_length=100, default="skeleton.jpg") # whole page background image, implement later
+
+    #gives the full path
+    def getImageUrl(self):
+        return f"/static/enemy_images/{self.image_filename}"
 
     def __str__(self):
         return self.name

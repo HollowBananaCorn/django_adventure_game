@@ -13,26 +13,29 @@ def populate():
          'min_damage' : 20,
          'max_damage' : 40,
          'defense' : 0,
-         'gold_drop' : 5},
+         'gold_drop' : 5,
+         'image_filename' : 'skeleton.jpg'},
          {'name' : 'Soldier',
-         'max_health' : 1000,
+         'max_health' : 100,
          'min_damage' : 25,
          'max_damage' : 30,
          'defense' : 20,
-         'gold_drop' : 15},
+         'gold_drop' : 15,
+         'image_filename' : 'k***ht.jpg'},
     ]
 
     for enemy in enemies:
-        add_enemy(enemy['name'], enemy['max_health'], enemy['min_damage'], enemy['max_damage'], enemy['defense'], enemy['gold_drop'])
+        add_enemy(enemy['name'], enemy['max_health'], enemy['min_damage'], enemy['max_damage'], enemy['defense'], enemy['gold_drop'], enemy['image_filename'])
 
 
-def add_enemy(name, max_health, min_damage, max_damage, defense, gold_drop):
+def add_enemy(name, max_health, min_damage, max_damage, defense, gold_drop, image_filename):
     e = Enemy.objects.get_or_create(name = name)[0]
     e.max_health = max_health
     e.min_damage= min_damage
     e.max_damage = max_damage
     e.defense = defense
     e.gold_drop = gold_drop
+    e.image_filename = image_filename
     e.save()
     return e
 

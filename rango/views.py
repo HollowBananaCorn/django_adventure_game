@@ -96,34 +96,19 @@ def play(request):
     return render(request, 'rango/play.html', {'player': character}) 
 
 @login_required
-def dungeon1(request):  # First Dungeon?
+def dungeon(request):  # First Dungeon?
 
     enemy = Enemy.objects.first()
     
     user_profile = get_object_or_404(UserProfile, user=request.user)
     character = get_object_or_404(Character, user=user_profile)
 
-    return render(request, 'rango/dungeon1.html', {'enemy' : enemy, 'player' : character})
+    return render(request, 'rango/dungeon.html', {'enemy' : enemy, 'player' : character})
 
-def updated_dungeon1(request):
+def updated_dungeon(request):
 
-    return render(request, 'rango/updated_dungeon1.html')
+    return render(request, 'rango/updated_dungeon.html')
 
-def dungeon2(request):
-
-    return render(request, 'rango/dungeon2.html')
-
-def updated_dungeon2(request):
-
-    return render(request, 'rango/updated_dungeon2.html')
-
-def dungeon3(request):
-
-    return render(request, 'rango/dungeon3.html')
-
-def updated_dungeon3(request):
-
-    return render(request, 'rango/updated_dungeon3.html')
 
 def shop(request):
 

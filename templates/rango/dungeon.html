@@ -98,7 +98,7 @@
 <body>
     <div class="container">
 
-        <img src="{% static 'images/battle1.jpg' %}" alt="battle background" />
+        <img src="{{ enemy.getImageUrl }}" alt="battle background of {{ enemy.name }}" />
 
         <div class="run_away">
             <a href="{% url 'rango:play' %}" class="buttons">Run away</a>
