@@ -229,6 +229,53 @@ def update_attack(request):
     #displays it like the one from the webb task in the hackathon
     return JsonResponse({"status": "error", "message": "Invalid request"}, )
 
+@login_required
+@csrf_exempt
+def update_defense(request):
+    #should only be when the USER want to update health - 
+    #submits data from the client’s web browser to be processed
+    if request.method == 'POST': 
+        try:
+            data = json.loads(request.body)
+            new_defense= data.get("new_defense")
+
+            user_profile = UserProfile.objects.get(user=request.user)
+            character = Character.objects.get(user=user_profile)
+
+            character.defense = new_defense
+            character.save()
+
+            return JsonResponse({"status": "success", "new_defense": character.defense})
+        except Exception as e:
+            # not in book, but good for debug stuff
+            return JsonResponse({"status": "error", "message": str(e)}) 
+        
+    #displays it like the one from the webb task in the hackathon
+    return JsonResponse({"status": "error", "message": "Invalid request"}, )
+
+@login_required
+@csrf_exempt
+def update_agility(request):
+    #should only be when the USER want to update health - 
+    #submits data from the client’s web browser to be processed
+    if request.method == 'POST': 
+        try:
+            data = json.loads(request.body)
+            new_agility= data.get("new_agility")
+
+            user_profile = UserProfile.objects.get(user=request.user)
+            character = Character.objects.get(user=user_profile)
+
+            character.agility = new_agility
+            character.save()
+
+            return JsonResponse({"status": "success", "new_agility": character.agility})
+        except Exception as e:
+            # not in book, but good for debug stuff
+            return JsonResponse({"status": "error", "message": str(e)}) 
+        
+    #displays it like the one from the webb task in the hackathon
+    return JsonResponse({"status": "error", "message": "Invalid request"}, )
 
 @login_required
 def delete_character(request):

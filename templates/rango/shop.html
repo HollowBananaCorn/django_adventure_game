@@ -76,8 +76,8 @@
     <div class="stats">
         <p>Stats</p>
         <p id="atk-lable">Attack: {{ player.attack }}</p>
-        <p>Defense: {{ player.defense }}</p>
-        <p>Agility: {{ player.agility }}</p>
+        <p id="def-lable">Defense: {{ player.defense }}</p>
+        <p id="adp-lable">Agility: {{ player.agility }}</p>
     </div>
 
     <div class="stats-info">
@@ -133,6 +133,34 @@
                 document.getElementById("money").innerText = "Money:  " + playerGold + " 💰";
 
                 UpdateAttack(playerAttack);
+                UpdateGold(playerGold);
+            }
+        });
+
+        document.getElementById("upgrade-def-button").addEventListener("click", function(){
+            if(playerGold >= 75 && playerDefense < Number.MAX_VALUE) // set a max value later
+            {
+                
+                playerGold -= 75;
+                playerDefense += 5;
+                document.getElementById("def-lable").innerText = "Defense: " + playerDefense;
+                document.getElementById("money").innerText = "Money:  " + playerGold + " 💰";
+
+                UpdateDefense(playerDefense);
+                UpdateGold(playerGold);
+            }
+        });
+
+        document.getElementById("upgrade-adp-button").addEventListener("click", function(){
+            if(playerGold >= 75 && playerAgility < Number.MAX_VALUE) // set a max value later
+            {
+                
+                playerGold -= 75;
+                playerAgility += 5;
+                document.getElementById("atk-lable").innerText = "Attack: " + playerAgility;
+                document.getElementById("money").innerText = "Money:  " + playerGold + " 💰";
+
+                UpdateAgility(playerAgility);
                 UpdateGold(playerGold);
             }
         });

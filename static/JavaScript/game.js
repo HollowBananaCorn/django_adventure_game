@@ -1,37 +1,58 @@
 // Update health to database. Could use XMLHttpRequest, but fetch is easier.
-function UpdateHealth(playerHealth)
+function UpdateHealth(health)
 {
     fetch("/rango/update_health/", {method : "POST", 
         headers : {
         "Content-Type": "application/json",
         "X-CSRFToken": getCSRFToken()
     },
-    body : JSON.stringify({ "new_health": playerHealth })}
+    body : JSON.stringify({ "new_health": health })}
     );
 }
 
-function UpdateGold(playerGold)
+function UpdateGold(gold)
 {
     fetch("/rango/update_gold/", {method : "POST", 
         headers : {
         "Content-Type": "application/json",
         "X-CSRFToken": getCSRFToken()
     },
-    body : JSON.stringify({ "new_gold": playerGold })}
+    body : JSON.stringify({ "new_gold": gold })}
     );
 }
 
-function UpdateAttack(playerAttack)
+function UpdateAttack(attack)
 {
     fetch("/rango/update_attack/", {method : "POST", 
         headers : {
         "Content-Type": "application/json",
         "X-CSRFToken": getCSRFToken()
     },
-    body : JSON.stringify({ "new_attack": playerAttack })}
+    body : JSON.stringify({ "new_attack": attack })}
     );
 }
 
+function UpdateDefense(defense)
+{
+    fetch("/rango/update_defense/", {method : "POST", 
+        headers : {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCSRFToken()
+    },
+    body : JSON.stringify({ "new_defense": defense })}
+    );
+}
+
+function UpdateAgility(agility)
+{
+    fetch("/rango/update_agility/", {method : "POST", 
+        headers : {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCSRFToken()
+    },
+    body : JSON.stringify({ "new_agility": agility })}
+    );
+}
 
 function QuitGame()
 {

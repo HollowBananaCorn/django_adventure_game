@@ -82,15 +82,17 @@
     <div class="container">
         <img src="{% static 'images/warrior_login.png' %}" alt="Register Background" class="background">
 
-        <form class="register-form" onsubmit="return validateForm()">
+        <form class="register-form" method="POST" action="{% url 'rango:register' %}">
+            {% csrf_token %}
             <input type="text" id="username" name="username" placeholder="Username" required>
             <input type="email" id="email" name="email" placeholder="Email" required>
             <input type="password" id="password" name="password" placeholder="Password" required>
             <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
-            <p class="error" id="error-message"></p>
+            <p class="error">{{ form.errors }}</p>
             <button type="submit">Register</button>
             <button type="button" class="back-btn" onclick="history.back()">Back</button>
         </form>
+        
     </div>
 
     <script>
