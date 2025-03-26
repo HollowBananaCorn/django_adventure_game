@@ -1,25 +1,105 @@
 <!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Warriors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-{% load staticfiles %}
-<html>
-    <head>
-        <title>Register</title>
-    </head>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-    <body>
-        <h1>Register for tryhard Gaming</h1>
-        {% if registered %}
-        Rango says: <strong>thank you for registering!</strong>
-        <a href="{% url 'rango:index' %}">Return to the homepage.</a><br />
-        {% else %}
-        Rango says: <strong>register here!</strong><br />
-        <form id="user_form" method="post" action="{% url 'rango:register' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ user_form.as_p }}
-            {{ profile_form.as_p }}
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
 
-            <input type="submit" name="submit" value="Register" />
-        </form>
-        {% endif %}
-    </body>
+        /* 背景图片 */
+        .background {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+     
+        .register-form {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .register-form input {
+            width: 250px;
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .register-form button {
+            width: 250px;
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background: #28a745;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .register-form button:hover {
+            background: #218838;
+        }
+
+        .register-form .back-btn {
+            background: #dc3545;
+        }
+
+        .register-form .back-btn:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+     
+        <img src="{% static 'images/register_background.jpg' %}" alt="Register Background" class="background">
+
+    
+        <div class="register-form">
+            <input type="text" placeholder="Username" required>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <input type="password" placeholder="Confirm Password" required>
+            <button type="submit">Register</button>
+            <button type="button" class="back-btn" onclick="history.back()">Back</button>
+        </div>
+    </div>
+
+</body>
 </html>
+
