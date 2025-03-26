@@ -27,5 +27,6 @@ urlpatterns = [
 
     path('update_health/', views.update_health, name='update_health'),
     path('update_gold/', views.update_gold, name='update_gold'),
+    path('update_attack/', views.update_attack, name='update_attack'),
     path('delete_character/', views.delete_character, name ='delete_character')
 ]

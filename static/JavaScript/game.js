@@ -21,6 +21,17 @@ function UpdateGold(playerGold)
     );
 }
 
+function UpdateAttack(playerAttack)
+{
+    fetch("/rango/update_attack/", {method : "POST", 
+        headers : {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCSRFToken()
+    },
+    body : JSON.stringify({ "new_attack": playerAttack })}
+    );
+}
+
 
 function QuitGame()
 {

@@ -75,7 +75,7 @@
 
     <div class="stats">
         <p>Stats</p>
-        <p>Attack: {{ player.attack }}</p>
+        <p id="atk-lable">Attack: {{ player.attack }}</p>
         <p>Defense: {{ player.defense }}</p>
         <p>Agility: {{ player.agility }}</p>
     </div>
@@ -85,15 +85,15 @@
     </div>
 
     <div class="Attack_upgrade_button">
-        <a href="#" class="buttons">Upgrade Attack (75 Gold)</a>
+        <a href="#" id="upgrade-atk-button" class="buttons">Upgrade Attack (75 Gold)</a>
     </div>
 
     <div class="Defence_upgrade_button">
-        <a href="#" class="buttons">Upgrade Defence (75 Gold)</a>
+        <a href="#" id="upgrade-def-button" class="buttons">Upgrade Defence (75 Gold)</a>
     </div>
 
     <div class="Agility_upgrade_button">
-        <a href="#" class="buttons">Upgrade Agility (75 Gold)</a>
+        <a href="#" id="upgrade-adp-button" class="buttons">Upgrade Agility (75 Gold)</a>
     </div>
 
     <div class="heal-button">
@@ -103,9 +103,10 @@
     <script>
         var playerHealth = parseInt("{{ player.current_health }}");
         var playerMaxHealth = parseInt("{{ player.max_health }}");
+        var playerGold = parseInt("{{ player.gold }}");
         var playerAttack = parseInt("{{ player.attack }}");
         var playerDefense = parseInt("{{ player.defense }}");
-        var playerGold = parseInt("{{ player.gold }}");
+        var playerAgility = parseInt("{{ player.agility }}");
 
         document.getElementById("heal-button").addEventListener("click", function(){
             if(playerGold >= 10 && playerHealth < playerMaxHealth)
@@ -118,6 +119,20 @@
                 document.getElementById("money").innerText = "Money:  " + playerGold + " 💰";
 
                 UpdateHealth(playerHealth);
+                UpdateGold(playerGold);
+            }
+        });
+
+        document.getElementById("upgrade-atk-button").addEventListener("click", function(){
+            if(playerGold >= 75 && playerAttack < Number.MAX_VALUE) // set a max value later
+            {
+                
+                playerGold -= 75;
+                playerAttack += 5;
+                document.getElementById("atk-lable").innerText = "Attack: " + playerAttack;
+                document.getElementById("money").innerText = "Money:  " + playerGold + " 💰";
+
+                UpdateAttack(playerAttack);
                 UpdateGold(playerGold);
             }
         });
