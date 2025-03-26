@@ -1,3 +1,27 @@
+// Update health to database. Could use XMLHttpRequest, but fetch is easier.
+function UpdateHealth(playerHealth)
+{
+    fetch("/rango/update_health/", {method : "POST", 
+        headers : {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCSRFToken()
+    },
+    body : JSON.stringify({ "new_health": playerHealth })}
+    );
+}
+
+function UpdateGold(playerGold)
+{
+    fetch("/rango/update_gold/", {method : "POST", 
+        headers : {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCSRFToken()
+    },
+    body : JSON.stringify({ "new_gold": playerGold })}
+    );
+}
+
+
 function QuitGame()
 {
     // can't use "{% static 'JavaScript/game.js' %}" because not django template

@@ -119,7 +119,7 @@
 
         <div class="time">Time left: -somehow add time-</div>
 
-        <div class="money">Money: 0 💰</div>
+        <div class="money">Money:  {{ player.gold }} 💰</div>
 
         <!-- player health -->
         <div class="health">
@@ -171,10 +171,12 @@
         var enemyMinDamage = parseInt("{{ enemy.min_damage }}");
         var enemyMaxDamage = parseInt("{{ enemy.max_damage }}");
         var enemyDefense = parseInt("{{ enemy.defense }}");
+        var enemyGold = parseInt("{{ enemy.gold_drop }}");
 
         var playerHealth = parseInt("{{ player.current_health }}");
         var playerAttack = parseInt("{{ player.attack }}");
         var playerDefense = parseInt("{{ player.defense }}");
+        var playerGold = parseInt("{{ player.gold }}");
         
         document.getElementById("attack-button").addEventListener("click", function(){
             var damageToEnemy = Math.floor(playerAttack * (100 - enemyDefense) / 100);
@@ -186,6 +188,8 @@
             if(enemyHealth === 0)
             {
                 document.getElementById("popup-win-battle").style.display = "block";
+                playerGold += enemyGold;
+                UpdateGold(playerGold);
             }
             else
             {
@@ -199,14 +203,8 @@
                 // Update player health display
                 document.getElementById("player-current-health").innerText = playerHealth + "/" + parseInt("{{ player.max_health }}");
     
-                // Update haalth to database. Could use XMLHttpRequest, but fetch is easier.
-                fetch("{% url 'rango:update_health' %}", {method : "POST", 
-                    headers : {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": "{{ csrf_token }}"  // Ensure security with CSRF token
-                },
-                body : JSON.stringify({ "new_health": playerHealth })}
-                );
+                // Update haalth to database.
+                UpdateHealth(playerHealth);
 
                 // Show enemy attack pop-up
                 document.getElementById("enemy-attack-message").innerText = "The enemy attacked you for " + damageFromEnemy + " damage!";

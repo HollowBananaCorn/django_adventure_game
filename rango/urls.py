@@ -29,5 +29,6 @@ urlpatterns = [
     path('updated_play/updated_shop/updated_stats', views.updatedStats, name='updated_stats_info'),
 
     path('update_health/', views.update_health, name='update_health'),
+    path('update_gold/', views.update_gold, name='update_gold'),
     path('delete_character/', views.delete_character, name ='delete_character')
 ]

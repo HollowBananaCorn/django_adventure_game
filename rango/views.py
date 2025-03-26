@@ -190,6 +190,30 @@ def update_health(request):
     #displays it like the one from the webb task in the hackathon
     return JsonResponse({"status": "error", "message": "Invalid request"}, )
 
+@login_required
+@csrf_exempt
+def update_gold(request):
+    #should only be when the USER want to update health - 
+    #submits data from the client’s web browser to be processed
+    if request.method == 'POST': 
+        try:
+            data = json.loads(request.body)
+            new_gold = data.get("new_gold")
+
+            user_profile = UserProfile.objects.get(user=request.user)
+            character = Character.objects.get(user=user_profile)
+
+            character.gold = new_gold
+            character.save()
+
+            return JsonResponse({"status": "success", "new_gold": character.gold})
+        except Exception as e:
+            # not in book, but good for debug stuff
+            return JsonResponse({"status": "error", "message": str(e)}) 
+        
+    #displays it like the one from the webb task in the hackathon
+    return JsonResponse({"status": "error", "message": "Invalid request"}, )
+
 
 @login_required
 def delete_character(request):
