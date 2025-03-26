@@ -1,59 +1,66 @@
 <!DOCTYPE html>
-{% load static %}
-<html lang="en">
+{% load staticfiles %}
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Warriors</title>
+    <title>Register</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: Arial, sans-serif;
-            background-color: black;
+            background-color: rgb(44, 41, 41);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
+
         .container {
             position: relative;
             width: 100%;
             max-width: 800px;
             text-align: center;
         }
+
         .background {
             width: 100%;
             height: auto;
             display: block;
             border-radius: 8px;
         }
+
         .register-form {
             position: absolute;
-            bottom: 20px;
+            top: 70%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
             display: flex;
             flex-direction: column;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.5);
             padding: 10px;
             border-radius: 5px;
         }
+
         .register-form input {
-            width: 250px;
+            width: 100%;
             padding: 10px;
-            margin: 5px;
+            margin: 5px 0;
             border: none;
             border-radius: 5px;
             text-align: center;
+            font-size: 16px;
+            background: #333;
+            color: white;
         }
+
         .register-form button {
-            width: 250px;
+            width: 100%;
             padding: 10px;
-            margin: 5px;
+            margin: 5px 0;
             border: none;
             border-radius: 5px;
             background: #28a745;
@@ -61,15 +68,19 @@
             font-size: 16px;
             cursor: pointer;
         }
+
         .register-form button:hover {
             background: #218838;
         }
-        .register-form .back-btn {
+
+        .back-btn {
             background: #dc3545;
         }
-        .register-form .back-btn:hover {
+
+        .back-btn:hover {
             background: #c82333;
         }
+
         .error {
             color: red;
             font-size: 14px;
@@ -77,22 +88,30 @@
         }
     </style>
 </head>
+
 <body>
-
     <div class="container">
-        <img src="{% static 'images/warrior_login.png' %}" alt="Register Background" class="background">
+        <img src="{% static 'images/warrior_login.png' %}" alt="Warrior Battle Scene" class="background">
 
-        <form class="register-form" method="POST" action="{% url 'rango:register' %}">
-            {% csrf_token %}
-            <input type="text" id="username" name="username" placeholder="Username" required>
-            <input type="email" id="email" name="email" placeholder="Email" required>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
-            <p class="error">{{ form.errors }}</p>
-            <button type="submit">Register</button>
-            <button type="button" class="back-btn" onclick="history.back()">Back</button>
-        </form>
-        
+        {% if registered %}
+            <div class="register-form">
+                <p style="color: white;"><strong>Thank you for registering!</strong></p>
+                <a href="{% url 'rango:index' %}">
+                    <button type="button">Return to Homepage</button>
+                </a>
+            </div>
+        {% else %}
+            <form class="register-form" id="user_form" method="post" action="{% url 'rango:register' %}" onsubmit="return validateForm()">
+                {% csrf_token %}
+                <input type="text" id="username" name="username" placeholder="Username" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+                <p class="error" id="error-message"></p>
+                <button type="submit">Register</button>
+                <button type="button" class="back-btn" onclick="history.back()">Back</button>
+            </form>
+        {% endif %}
     </div>
 
     <script>
@@ -113,4 +132,3 @@
 
 </body>
 </html>
-
