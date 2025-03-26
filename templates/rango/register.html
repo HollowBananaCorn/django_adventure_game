@@ -11,7 +11,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: Arial, sans-serif;
             background-color: black;
@@ -20,23 +19,18 @@
             align-items: center;
             height: 100vh;
         }
-
         .container {
             position: relative;
             width: 100%;
             max-width: 800px;
             text-align: center;
         }
-
-     
         .background {
             width: 100%;
             height: auto;
             display: block;
             border-radius: 8px;
         }
-
-     
         .register-form {
             position: absolute;
             bottom: 20px;
@@ -48,7 +42,6 @@
             padding: 10px;
             border-radius: 5px;
         }
-
         .register-form input {
             width: 250px;
             padding: 10px;
@@ -57,7 +50,6 @@
             border-radius: 5px;
             text-align: center;
         }
-
         .register-form button {
             width: 250px;
             padding: 10px;
@@ -69,36 +61,53 @@
             font-size: 16px;
             cursor: pointer;
         }
-
         .register-form button:hover {
             background: #218838;
         }
-
         .register-form .back-btn {
             background: #dc3545;
         }
-
         .register-form .back-btn:hover {
             background: #c82333;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-     
         <img src="{% static 'images/warrior_login.png' %}" alt="Register Background" class="background">
 
-    
-        <div class="register-form">
-            <input type="text" placeholder="Username" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password" required>
-            <input type="password" placeholder="Confirm Password" required>
+        <form class="register-form" onsubmit="return validateForm()">
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+            <p class="error" id="error-message"></p>
             <button type="submit">Register</button>
             <button type="button" class="back-btn" onclick="history.back()">Back</button>
-        </div>
+        </form>
     </div>
+
+    <script>
+        function validateForm() {
+            var password = document.getElementById("password").value;
+            var confirm_password = document.getElementById("confirm_password").value;
+            var errorMessage = document.getElementById("error-message");
+
+            if (password !== confirm_password) {
+                errorMessage.innerText = "Passwords do not match!";
+                return false;
+            }
+
+            errorMessage.innerText = "";  
+            return true;
+        }
+    </script>
 
 </body>
 </html>
