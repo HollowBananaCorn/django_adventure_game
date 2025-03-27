@@ -239,12 +239,12 @@
                 {
                     var damageToEnemy = Math.floor(playerAttack * dmgMultiplier * (100 - enemyDefense) / 100);
 
-                    if(Math.random() < missChance) // if miss
+                    if(Math.random() < missChance - 0.002*playerLuck) // if miss
                     {
                         alert(actionName + " missed!");
                         damageToEnemy = 0;
                     }
-                    else if(Math.random() < critChance)// if critical
+                    else if(Math.random() < critChance + 0.002*playerLuck)// if critical
                     {
                         damageToEnemy *= 2;
                         alert("critical hit with " + actionName);
@@ -281,18 +281,18 @@
             if(enemyHealth === 0)
             {
                 document.getElementById("popup-win-battle").style.display = "block";
-                playerGold += enemyGold;
+                playerGold += enemyGold*(100+playerLuck)/100;
                 UpdateGold(playerGold);
             }
             else
             {
-                if(Math.random() < (playerAgility)/100)
+                if(Math.random() < (playerAgility)/100 + 0.002*playerLuck)
                 {
                     alert("Enemy missed!")
                 }
                 else
                 {    // Enemy attacks the player
-                    var damageFromEnemy = Math.floor(Math.random() * (enemyMaxDamage - enemyMinDamage + 1) + enemyMinDamage);
+                    var damageFromEnemy = Math.floor((Math.random()**(100+playerLuck)/100) * (enemyMaxDamage - enemyMinDamage + 1) + enemyMinDamage);
                     damageFromEnemy = Math.floor(damageFromEnemy * (100 - playerDefense) / 100); // because defence
 
                     playerHealth -= damageFromEnemy;

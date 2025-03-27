@@ -177,7 +177,7 @@
 
         <div id="popup-win-battle">
             <h2>YOU WIN!</h2>
-            <a href="{% url 'rango' %}"><button>Exit</button></a>
+            <a href="{% url 'rango:index' %}"><button>Exit</button></a>
         </div>
 
         <div id="popup-enemy-attack">
@@ -271,8 +271,6 @@
             if(enemyHealth === 0)
             {
                 document.getElementById("popup-win-battle").style.display = "block";
-                playerGold += enemyGold;
-                UpdateGold(playerGold);
             }
             else
             {
