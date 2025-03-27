@@ -8,10 +8,11 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from datetime import timedelta
 
 from rango.forms import UserForm, UserProfileForm
 
-from .models import Enemy, Character, UserProfile
+from .models import Enemy, Character, UserProfile, Action
 
 def index(request):
     context_dict = {'boldmessage': 'how to use context dictionary'}
@@ -105,12 +106,9 @@ def dungeon(request):  # First Dungeon?
     
     user_profile = get_object_or_404(UserProfile, user=request.user)
     character = get_object_or_404(Character, user=user_profile)
+    actions = Action.objects.all()
 
-    return render(request, 'rango/dungeon.html', {'enemy' : enemy, 'player' : character})
-
-def updated_dungeon(request):
-
-    return render(request, 'rango/updated_dungeon.html')
+    return render(request, 'rango/dungeon.html', {'enemy' : enemy, 'player' : character, 'actions' : actions})
 
 
 def shop(request):
@@ -153,8 +151,11 @@ def bossTalk(request):
     return render(request, 'rango/boss_talk.html', {'player': character})
 
 def boss(request):
+    user_profile, created = UserProfile.objects.get_or_create(user = request.user)
+    character, char_created = Character.objects.get_or_create(user=user_profile)
+    actions = Action.objects.all()
 
-    return render(request, 'rango/boss.html')
+    return render(request, 'rango/boss.html',  {'player': character, 'actions' : actions})
 
 def updatedPlay(request):
     user_profile, created = UserProfile.objects.get_or_create(user = request.user)
@@ -164,15 +165,6 @@ def updatedPlay(request):
         return redirect("rango:play")
 
     return render(request, 'rango/updated_play.html', {'player': character})
-
-def updatedShop(request):
-
-    return render(request, 'rango/updated_shop.html')
-
-def updatedStats(request):
-
-    return render(request, 'rango/updated_stats.html')
-
 
 
 
@@ -308,3 +300,22 @@ def delete_character(request):
         pass
 
     return redirect('index')
+
+def update_score(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        time = data.get("passed_time")
+
+        user_profile = UserProfile.objects.get(user=request.user)
+
+        if user_profile.max_score == None or time < user_profile.max_score:
+            user_profile.max_score = time
+            user_profile.save()
+
+        #minutes-seconds format
+        formatted_time = f"{time // 60:02}:{time % 60:02}"
+
+        return JsonResponse({"success": "success", "formatted_time": formatted_time})
+    
+    #bad request, client should not access this url.
+    return JsonResponse({"success": "error"}, status=400)
