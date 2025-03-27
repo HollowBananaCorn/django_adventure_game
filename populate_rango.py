@@ -21,7 +21,7 @@ def populate():
          'max_damage' : 20,
          'defense' : 20,
          'gold_drop' : 15,
-         'image_filename' : 'k***ht.jpg'},
+         'image_filename' : 'knight.jpg'},
     ]
 
     for enemy in enemies:
