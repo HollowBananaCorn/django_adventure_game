@@ -118,11 +118,21 @@ def shop(request):
     return render(request, 'rango/shop.html', {'player': character})
 
 def stranger(request):
-    user_profile, created = UserProfile.objects.get_or_create(user = request.user)
-
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
     character, char_created = Character.objects.get_or_create(user=user_profile)
 
-    return render(request, 'rango/stranger.html', {'player': character})
+    if request.method == "POST":  
+        if character.gold >= 500 and not character.payed_stranger:
+            character.gold -= 500
+            character.payed_stranger = True
+            character.save()
+            return redirect("rango:boss_area")  # Send player to boss area after paying
+        else:
+            #reloadit if nothing done instead
+            return render(request, "rango/stranger.html", {"player": character, "error": "not enough money"})
+
+    # loadit if normally
+    return render(request, "rango/stranger.html", {"player": character})
 
 def stats(request):
  

@@ -21,6 +21,8 @@ class Character(models.Model):
     agility = models.IntegerField(default=5) # dodgeChance
     gold = models.IntegerField(default=0)
 
+    payed_stranger = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.user.user.username}'s Character"
     
