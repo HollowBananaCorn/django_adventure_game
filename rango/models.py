@@ -52,15 +52,15 @@ class Action(models.Model): # Attack buttons mid-fight
         (BUFF, 'Buff'),
     ]
 
-    name = models.CharField(max_length=50, default='bash')  # Action name
+    name = models.CharField(max_length=50, default='bash')
     action_type = models.CharField(max_length=10, choices=ACTION_TYPES, default=ATTACK)
 
     # For attack actions
-    dmg_multiplier = models.FloatField(default=1.0)  # 1.0 = 100% damage
+    dmg_multiplier = models.FloatField(default=1.0)  # 100% damage
     miss_chance = models.FloatField(default=0.0)  # 0.0 = no miss, 1.0 = always miss
     crit_chance = models.FloatField(default=0.0)  # 0.0 = no crit, 1.0 = always crit
 
-    # for buff actions (applies only if action_type == 'buff')
+    # for buff actions (if action_type == 'buff')
     luck_increase = models.IntegerField(default=0, blank=True, null=True)
     atk_increase = models.IntegerField(default=0, blank=True, null=True)
     def_increase = models.IntegerField(default=0, blank=True, null=True)

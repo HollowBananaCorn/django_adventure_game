@@ -36,7 +36,7 @@ def populate():
          'adp_increase': 0},
         {'name': 'Sniper', 
          'action_type': 'attack', 
-         'dmg_multiplier': 0.8, 
+         'dmg_multiplier': 3, 
          'miss_chance': 0.7,
          'crit_chance': 0.5,
          'luck_increase': 0,
