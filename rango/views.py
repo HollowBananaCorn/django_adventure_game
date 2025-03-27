@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from datetime import timedelta
 
 from rango.forms import UserForm, UserProfileForm
 
@@ -299,3 +300,22 @@ def delete_character(request):
         pass
 
     return redirect('index')
+
+def update_score(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        time = data.get("passed_time")
+
+        user_profile = UserProfile.objects.get(user=request.user)
+
+        if user_profile.max_score == None or time < user_profile.max_score:
+            user_profile.max_score = time
+            user_profile.save()
+
+        #minutes-seconds format
+        formatted_time = f"{time // 60:02}:{time % 60:02}"
+
+        return JsonResponse({"success": "success", "formatted_time": formatted_time})
+    
+    #bad request, client should not access this url.
+    return JsonResponse({"success": "error"}, status=400)

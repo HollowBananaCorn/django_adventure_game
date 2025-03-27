@@ -177,13 +177,14 @@
 
         <div id="popup-win-battle">
             <h2>YOU WIN!</h2>
-            <a href="{% url 'rango:index' %}"><button>Exit</button></a>
+            <button onclick="QuitGame()">ok.</button>
         </div>
 
         <div id="popup-enemy-attack">
             <h2>You were attacked!</h2>
             <p id="enemy-attack-message"></p>
             <button onclick="handlePostAttack()">OK</button>
+            <!-- <button onclick="submitScore()">Submit Score</button> -->
         </div>
         
         <div id="popup-game-over" style="display: none;">

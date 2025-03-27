@@ -79,3 +79,22 @@ function getCSRFToken() // need it for POST requests
     // if none found(will probably lead to a 403 error)
     return "";
 }
+
+function submitScore()
+{
+    var startTime = new Date("{{ player.start_time|date:'c' }}");
+    var endTime = new Date(); // now
+    passed_time = (endTime - startTime);
+
+    fetch("{% url 'rango:update_score' %}", {method : "POST", 
+        headers : {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCSRFToken()
+    },
+    body : JSON.stringify({ "passed_time" : passed_time })}
+    ).then(response => response.json())
+    .then(data => {
+        alert("Score submitted! Your time: " + data.formatted_time);
+        window.location.href = "{% url 'rango:index' %}";
+    });
+}
