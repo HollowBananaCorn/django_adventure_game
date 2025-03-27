@@ -13,19 +13,18 @@ class UserProfile(models.Model): #copied from previous
         return self.user.username
     
 class Character(models.Model):
-    # user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
-    # max_health = models.IntegerField(default=100) # always max 100 hp, but better still have it.
-    # current_health = models.IntegerField(default=100)
-    # attack = models.IntegerField(default=10) # base damage before calculations
-    # defense = models.IntegerField(default=10) # %damage ignored
-    # agility = models.IntegerField(default=5) # dodgeChance
-    # gold = models.IntegerField(default=0)
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
+    max_health = models.IntegerField(default=100) # always max 100 hp, but better still have it.
+    current_health = models.IntegerField(default=100)
+    attack = models.IntegerField(default=10) # base damage before calculations
+    defense = models.IntegerField(default=10) # %damage ignored
+    agility = models.IntegerField(default=5) # dodgeChance
+    gold = models.IntegerField(default=0)
 
-    # payed_stranger = models.BooleanField(default=False)
+    payed_stranger = models.BooleanField(default=False)
 
-    # def __str__(self):
-    #     return f"{self.user.user.username}'s Character"
-    pass
+    def __str__(self):
+        return f"{self.user.user.username}'s Character"
     
     
 class Enemy(models.Model):
@@ -45,30 +44,32 @@ class Enemy(models.Model):
         return self.name
     
 class Action(models.Model): # Attack buttons mid-fight
-    ATTACK = 'attack'
-    BUFF = 'buff'
+    # ATTACK = 'attack'
+    # BUFF = 'buff'
     
-    ACTION_TYPES = [
-        (ATTACK, 'Attack'),
-        (BUFF, 'Buff'),
-    ]
+    # ACTION_TYPES = [
+    #     (ATTACK, 'Attack'),
+    #     (BUFF, 'Buff'),
+    # ]
 
-    name = models.CharField(max_length=50)  # Action name
-    action_type = models.CharField(max_length=10, choices=ACTION_TYPES, default=ATTACK)
+    # name = models.CharField(max_length=50)  # Action name
+    # action_type = models.CharField(max_length=10, choices=ACTION_TYPES, default=ATTACK)
 
-    # For attack actions
-    dmg_multiplier = models.FloatField(default=1.0)  # 1.0 = 100% damage
-    miss_chance = models.FloatField(default=0.0)  # 0.0 = no miss, 1.0 = always miss
-    crit_chance = models.FloatField(default=0.0)  # 0.0 = no crit, 1.0 = always crit
+    # # For attack actions
+    # dmg_multiplier = models.FloatField(default=1.0)  # 1.0 = 100% damage
+    # miss_chance = models.FloatField(default=0.0)  # 0.0 = no miss, 1.0 = always miss
+    # crit_chance = models.FloatField(default=0.0)  # 0.0 = no crit, 1.0 = always crit
 
-    # for buff actions (applies only if action_type == 'buff')
-    luck_increase = models.IntegerField(default=0, blank=True, null=True)
-    atk_increase = models.IntegerField(default=0, blank=True, null=True)
-    def_increase = models.IntegerField(default=0, blank=True, null=True)
-    adp_increase = models.IntegerField(default=0, blank=True, null=True)
+    # # for buff actions (applies only if action_type == 'buff')
+    # luck_increase = models.IntegerField(default=0, blank=True, null=True)
+    # atk_increase = models.IntegerField(default=0, blank=True, null=True)
+    # def_increase = models.IntegerField(default=0, blank=True, null=True)
+    # adp_increase = models.IntegerField(default=0, blank=True, null=True)
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
+
+    pass
 
 class Achievement(models.Model):
     # players = models.ManyToManyField(User, blank=True)  # Tracks which users unlocked it
