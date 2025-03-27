@@ -13,7 +13,6 @@ urlpatterns = [
     path('achievements/', views.achievements, name = 'achievements'),
     path('play/', views.play, name = 'play'),
     path('play/dungeon/', views.dungeon, name = 'dungeon'),
-    path('updated_play/updated_dungeon/', views.updated_dungeon, name = 'updated_dungeon'),
 
     path('play/shop/', views.shop, name = 'shop'),
     path('play/stranger/', views.stranger, name = 'stranger'),
@@ -22,8 +21,6 @@ urlpatterns = [
     path('play/stranger/boss_area/boss_talk/boss', views.boss, name = 'boss'),
     path('play/shop/stats/', views.stats, name='stats_info'),
     path('updated_play/', views.updatedPlay, name='updated_play'),
-    path('updated_play/updated_shop', views.updatedShop, name='updated_shop'),
-    path('updated_play/updated_shop/updated_stats', views.updatedStats, name='updated_stats_info'),
 
     path('update_health/', views.update_health, name='update_health'),
     path('update_gold/', views.update_gold, name='update_gold'),

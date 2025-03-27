@@ -109,10 +109,6 @@ def dungeon(request):  # First Dungeon?
 
     return render(request, 'rango/dungeon.html', {'enemy' : enemy, 'player' : character, 'actions' : actions})
 
-def updated_dungeon(request):
-
-    return render(request, 'rango/updated_dungeon.html')
-
 
 def shop(request):
     user_profile, created = UserProfile.objects.get_or_create(user = request.user)
@@ -154,8 +150,11 @@ def bossTalk(request):
     return render(request, 'rango/boss_talk.html', {'player': character})
 
 def boss(request):
+    user_profile, created = UserProfile.objects.get_or_create(user = request.user)
+    character, char_created = Character.objects.get_or_create(user=user_profile)
+    actions = Action.objects.all()
 
-    return render(request, 'rango/boss.html')
+    return render(request, 'rango/boss.html',  {'player': character, 'actions' : actions})
 
 def updatedPlay(request):
     user_profile, created = UserProfile.objects.get_or_create(user = request.user)
@@ -165,15 +164,6 @@ def updatedPlay(request):
         return redirect("rango:play")
 
     return render(request, 'rango/updated_play.html', {'player': character})
-
-def updatedShop(request):
-
-    return render(request, 'rango/updated_shop.html')
-
-def updatedStats(request):
-
-    return render(request, 'rango/updated_stats.html')
-
 
 
 

@@ -29,23 +29,69 @@
             width: 100%;
         }
 
-        .Attack {
+        .run_away {
+            position: absolute;
+            top: 10px;
+            left: 25px;
+        }
+
+        .Action1 {
             position: absolute;
             bottom: 20%;
             left: 25%;
         }
 
-        .Block {
+        .Action2 {
             position: absolute;
             bottom: 20%;
             left: 50%;
         }
 
-        .Dodge {
+        .Action3 {
             position: absolute;
             bottom: 20%;
             left: 75%;
         }
+
+        #popup-win-battle{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border: 2px solid black;
+            text-align: center;
+        }
+
+        #popup-game-over{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border: 2px solid black;
+            text-align: center;
+        }
+
+        #popup-enemy-attack{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border: 2px solid black;
+            text-align: center;
+        }
+
     </style>
 </head>
 
@@ -54,38 +100,219 @@
 
         <img src="{% static 'images/boss.jpg' %}" alt="battle background" />
 
-        <div class="Attack">
-            <a href="#" class="buttons">Attack</a>
+        <div class="Action1">
+            {% if actions.0 %}
+                <a href="#" id="attack-button1" class="buttons" 
+                    data-name="{{ actions.0.name }}" 
+                    data-type="{{ actions.0.action_type }}" 
+                    data-dmg-multiplier="{{ actions.0.dmg_multiplier }}"
+                    data-miss-chance="{{ actions.0.miss_chance }}"
+                    data-crit-chance="{{ actions.0.crit_chance }}"
+                    data-luck-increase="{{ actions.0.luck_increase }}"
+                    data-atk-increase="{{ actions.0.atk_increase }}"
+                    data-def-increase="{{ actions.0.def_increase }}"
+                    data-adp-increase="{{ actions.0.adp_increase }}">
+                    {{ actions.0.name }}
+                </a>
+            {% endif %}
         </div>
 
-        <div class="Block">
-            <a href="#" class="buttons">Block</a>
+        <div class="Action2">
+            {% if actions.1 %}
+                <a href="#" id="attack-button2" class="buttons" 
+                    data-name="{{ actions.1.name }}" 
+                    data-type="{{ actions.1.action_type }}" 
+                    data-dmg-multiplier="{{ actions.1.dmg_multiplier }}"
+                    data-miss-chance="{{ actions.1.miss_chance }}"
+                    data-crit-chance="{{ actions.1.crit_chance }}"
+                    data-luck-increase="{{ actions.1.luck_increase }}"
+                    data-atk-increase="{{ actions.1.atk_increase }}"
+                    data-def-increase="{{ actions.1.def_increase }}"
+                    data-adp-increase="{{ actions.1.adp_increase }}">
+                    {{ actions.1.name }}
+                </a>
+            {% endif %}
         </div>
 
-        <div class="Dodge">
-        <a href="#" class="buttons">Dodge</a>
+        <div class="Action3">
+            {% if actions.2 %}
+                <a href="#" id="buff-button" class="buttons" 
+                    data-name="{{ actions.2.name }}" 
+                    data-type="{{ actions.2.action_type }}" 
+                    data-dmg-multiplier="{{ actions.2.dmg_multiplier }}"
+                    data-miss-chance="{{ actions.2.miss_chance }}"
+                    data-crit-chance="{{ actions.2.crit_chance }}"
+                    data-luck-increase="{{ actions.2.luck_increase }}"
+                    data-atk-increase="{{ actions.2.atk_increase }}"
+                    data-def-increase="{{ actions.2.def_increase }}"
+                    data-adp-increase="{{ actions.2.adp_increase }}">
+                    {{ actions.2.name }}
+                </a>
+            {% endif %}
         </div>
 
         <div class="time">Time left: -somehow add time-</div>
-
-        <div class="money">Money: 0 💰</div>
+        <div id="money" class="money">Money:  {{ player.gold }} 💰</div>
 
         <div class="health">
             <div class="health-bar-background"></div>
-            <div class="health-bar"><span>100/100</span></div>
+            <div class="health-bar">
+                <span id="player-current-health">{{ player.current_health }}/{{ player.max_health }}</span>
+            </div>
         </div>
 
         <div class="enemy_health_position health">
             <div class="health-bar-background"></div>
-            <div class="enemy_health health-bar"><span>100/100</span></div>
+            <div class="enemy_health health-bar">
+                <span id="enemy-current-health">200/200</span>
+            </div>
         </div>
 
         <div class="stats">
             <p>Stats</p>
-            <p>Attack: 10</p>
-            <p>Block: 10</p>
-            <p>Agility: 10</p>
+            <p id="atk-lable">Attack: {{ player.attack }}</p>
+            <p id="def-lable">Defense: {{ player.defense }}</p>
+            <p id="adp-lable">Agility: {{ player.agility }}</p>
         </div>
+
+        <div id="popup-win-battle">
+            <h2>Enemy Felled!</h2>
+            <a href="{% url 'rango:play' %}"><button>Exit</button></a>
+        </div>
+
+        <div id="popup-enemy-attack">
+            <h2>You were attacked!</h2>
+            <p id="enemy-attack-message"></p>
+            <button onclick="handlePostAttack()">OK</button>
+        </div>
+        
+        <div id="popup-game-over" style="display: none;">
+            <h2>YOU DIED</h2>
+            <button onclick="QuitGame()">Quit</button>
+        </div>
+
     </div>
+
+    <script>
+        var enemyHealth = 200;
+        var enemyMinDamage = 30;
+        var enemyMaxDamage = 50;
+        var enemyDefense = 50;
+        var enemyGold = 0;
+
+        var playerHealth = parseInt("{{ player.current_health }}");
+        var playerAttack = parseInt("{{ player.attack }}");
+        var playerDefense = parseInt("{{ player.defense }}");
+        var playerAgility = parseInt("{{ player.agility }}")
+        var playerGold = parseInt("{{ player.gold }}");
+        var playerLuck = 0;
+        
+        document.querySelectorAll('.buttons').forEach(button =>{
+            button.addEventListener('click', function(){
+
+                var actionType = this.dataset.type;
+                var actionName = this.dataset.name;
+                var dmgMultiplier = parseFloat(this.dataset.dmgMultiplier);
+                var missChance = parseFloat(this.dataset.missChance);
+                var critChance = parseFloat(this.dataset.critChance);
+                var atkIncrease = parseInt(this.dataset.atkIncrease);
+                var defIncrease = parseInt(this.dataset.defIncrease);
+                var luckIncrease = parseInt(this.dataset.luckIncrease);
+                var adpIncrease = parseInt(this.dataset.adpIncrease);
+
+                if(!actionName) return; //if not an action button, donothing
+
+                if(actionType === 'attack')
+                {
+                    var damageToEnemy = Math.floor(playerAttack * dmgMultiplier * (100 - enemyDefense) / 100);
+
+                    if(Math.random() < missChance) // if miss
+                    {
+                        alert(actionName + " missed!");
+                        damageToEnemy = 0;
+                    }
+                    else if(Math.random() < critChance)// if critical
+                    {
+                        damageToEnemy *= 2;
+                        alert("critical hit with " + actionName);
+                    }
+                    enemyHealth -= damageToEnemy;
+                    if(enemyHealth < 0) enemyHealth = 0;
+                    document.getElementById("enemy-current-health").innerText = enemyHealth + "/" + 200;
+                }
+                else if(actionType === 'buff')
+                {
+                    var text = actionName + " used!"
+                    if(defIncrease){
+                        playerDefense += defIncrease;
+                        text +=  "\nDefense increased by " + defIncrease
+                        document.getElementById("def-lable").innerText = "Defense: " + playerDefense;
+                    }
+                    if(atkIncrease){
+                        playerAttack += atkIncrease;
+                        text +=  "\nAttack Power increased by " + atkIncrease
+                        document.getElementById("atk-lable").innerText = "Attack: " + playerAttack;
+                    }
+                    if(adpIncrease){
+                        playerAgility += adpIncrease;
+                        text +=  "\nAgility increased by " + adpIncrease
+                        document.getElementById("adp-lable").innerText = "Agility: " + playerAgility;
+                    }
+                    if(luckIncrease){
+                        playerLuck += luckIncrease;
+                        text +=  "\nLuck increased by " + luckIncrease
+                    }
+                    alert(text);
+                }
+            
+    
+            
+    
+            if(enemyHealth === 0)
+            {
+                document.getElementById("popup-win-battle").style.display = "block";
+                playerGold += enemyGold;
+                UpdateGold(playerGold);
+            }
+            else
+            {
+                if(Math.random() < (playerAgility)/100)
+                {
+                    alert("Enemy missed!")
+                }
+                else
+                {    // Enemy attacks the player
+                    var damageFromEnemy = Math.floor(Math.random() * (enemyMaxDamage - enemyMinDamage + 1) + enemyMinDamage);
+                    damageFromEnemy = Math.floor(damageFromEnemy * (100 - playerDefense) / 100); // because defence
+
+                    playerHealth -= damageFromEnemy;
+                    if(playerHealth < 0) playerHealth = 0;
+        
+                    // Update player health display
+                    document.getElementById("player-current-health").innerText = playerHealth + "/" + parseInt("{{ player.max_health }}");
+        
+                    // Update haalth to database.
+                    UpdateHealth(playerHealth);
+
+                    // Show enemy attack pop-up
+                    document.getElementById("enemy-attack-message").innerText = "The enemy attacked you for " + damageFromEnemy + " damage!";
+                    document.getElementById("popup-enemy-attack").style.display = "block";
+                }
+            }
+        })});
+    
+        function handlePostAttack()
+        {
+            // Check if player is dead
+            if(playerHealth === 0)
+                {
+                    document.getElementById("popup-game-over").style.display = "block";
+                }
+            document.getElementById("popup-enemy-attack").style.display = "none";
+        }
+    </script>
+
+<script src="{% static 'JavaScript/game.js' %}"></script>
+
 </body>
 </html>
