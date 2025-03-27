@@ -1,86 +1,12 @@
-<!DOCTYPE html>
+{% extends 'rango/base_play.html' %}
 {% load staticfiles %}
 
-<html>
-<head>
-    <title>In-Game</title>
+{% block background %}
+<img src="{% static 'images/updated_play.jpg' %}" alt="play background" />
+{% endblock %}
 
-    <link rel="stylesheet" href="{% static 'CSS_styles/styles.css' %}">
-
-    <style>
-
-        .container img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
-
-        .shop-button {
-            position: absolute;
-            top: 10px;
-            left: 25px;
-        }
-
-        .quit {
-            position: absolute;
-            bottom: 5%;
-            left: 75%;
-        }
-
-        .use {
-            position: absolute;
-            bottom: 35%;
-            left: 23%;
-        }
-
-        .dungeon {
-            position: absolute;
-            top: 20%;
-            right: 30%;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-
-        <img src="{% static 'images/updated_play.jpg' %}" alt="play background" />
-
-        <div class="shop-button">
-            <a href="{% url 'rango:updated_shop' %}" class="buttons">Shop</a>
-        </div>
-
-        <div class="quit">
-            <a href="/rango/" class="buttons">Quit game</a>
-        </div>
-
-        <div class="use">
-            <a href="{% url 'rango:boss_area' %}" class="buttons">Use boat</a>
-        </div>
-
-        <div class="dungeon">
-            <a href="{% url 'rango:updated_dungeon' %}" class="buttons">Enter the Dungeon</a>
-        </div>
-
-        <div class="time">Time left: -somehow add time-</div>
-
-        <div class="money">Money: 0 💰</div>
-
-        <div class="health">
-            <div class="health-bar-background"></div>
-            <div class="health-bar"><span>100/100</span></div>
-        </div>
-
-        <div class="stats">
-            <p>Stats</p>
-            <p>Attack: 10</p>
-            <p>Block: 10</p>
-            <p>Agility: 10</p>
-        </div>
-    </div>
-</body>
-</html>
+{% block travel %}
+<div class="use">
+    <a href="{% url 'rango:boss_area' %}" class="buttons">Use boat</a>
+</div>
+{% endblock %}

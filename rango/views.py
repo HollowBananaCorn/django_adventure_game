@@ -90,8 +90,11 @@ def achievements(request):
 @login_required
 def play(request):
     user_profile, created = UserProfile.objects.get_or_create(user = request.user)
-
     character, char_created = Character.objects.get_or_create(user=user_profile)
+
+    # if character payed stranger.
+    if character.payed_stranger:
+        return redirect("rango:updated_play")
 
     return render(request, 'rango/play.html', {'player': character}) 
 
@@ -112,7 +115,6 @@ def updated_dungeon(request):
 
 def shop(request):
     user_profile, created = UserProfile.objects.get_or_create(user = request.user)
-
     character, char_created = Character.objects.get_or_create(user=user_profile)
 
     return render(request, 'rango/shop.html', {'player': character})
@@ -139,20 +141,29 @@ def stats(request):
      return render(request, 'rango/stats.html')
 
 def bossArea(request):
+    user_profile, created = UserProfile.objects.get_or_create(user = request.user)
+    character, char_created = Character.objects.get_or_create(user=user_profile)
 
-    return render(request, 'rango/boss_area.html')
+    return render(request, 'rango/boss_area.html', {'player': character})
 
 def bossTalk(request):
+    user_profile, created = UserProfile.objects.get_or_create(user = request.user)
+    character, char_created = Character.objects.get_or_create(user=user_profile)
 
-    return render(request, 'rango/boss_talk.html')
+    return render(request, 'rango/boss_talk.html', {'player': character})
 
 def boss(request):
 
     return render(request, 'rango/boss.html')
 
 def updatedPlay(request):
+    user_profile, created = UserProfile.objects.get_or_create(user = request.user)
+    character, char_created = Character.objects.get_or_create(user=user_profile)
 
-    return render(request, 'rango/updated_play.html')
+    if not character.payed_stranger:
+        return redirect("rango:play")
+
+    return render(request, 'rango/updated_play.html', {'player': character})
 
 def updatedShop(request):
 

@@ -49,18 +49,18 @@
 
         <div class="time">Time left: -somehow add time-</div>
 
-        <div class="money">Money: 0 💰</div>
+        <div class="money">Money:  {{ player.gold }} 💰</div>
 
         <div class="health">
             <div class="health-bar-background"></div>
-            <div class="health-bar"><span>100/100</span></div>
+            <div class="health-bar"><span>{{ player.current_health }}/{{ player.max_health }}</span></div>
         </div>
 
         <div class="stats">
             <p>Stats</p>
-            <p>Attack: 10</p>
-            <p>Block: 10</p>
-            <p>Agility: 10</p>
+            <p id="atk-lable">Attack: {{ player.attack }}</p>
+            <p id="def-lable">Defense: {{ player.defense }}</p>
+            <p id="adp-lable">Agility: {{ player.agility }}</p>
         </div>
     </div>
 </body>
