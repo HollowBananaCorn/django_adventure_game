@@ -7,6 +7,7 @@ from django.utils.timezone import now
 class UserProfile(models.Model): #copied from previous
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     max_score = models.IntegerField(default = 0)
+    total_boss_kills = models.IntegerField(default=0)
     website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
@@ -25,7 +26,6 @@ class Character(models.Model):
     start_time = models.DateTimeField(default=now)
     payed_stranger = models.BooleanField(default=False)
     total_kills = models.IntegerField(default=0)     # Total enemy kills across runs
-    boss_kills = models.IntegerField(default=0)      # Total boss kills across runs
 
     def __str__(self):
         return f"{self.user.user.username}'s Character"

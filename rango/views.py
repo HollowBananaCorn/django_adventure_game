@@ -15,6 +15,8 @@ from .signals import achievement_check
 from .models import Enemy, Character, UserProfile, Action, Achievement, LeaderboardEntry
 
 def index(request):# i cant implement/test somethings on my pc due to some issue with migrating someone else please try it.
+    top_users = UserProfile.objects.exclude(max_score=0).order_by("max_score")[:10] #orders least 10 times
+
     if request.user.is_authenticated:
         user_profile = get_object_or_404(UserProfile, user=request.user) #this needs to be implemented here <user_profile = get_object_or_404(UserProfile, user=request.user)>
         character, _ = Character.objects.get_or_create(user=user_profile)
@@ -27,10 +29,14 @@ def index(request):# i cant implement/test somethings on my pc due to some issue
             "player": character,
             "achievements": achievements,
             "leaderboard_entries": leaderboard_entries,
+            "top_users": top_users,
             "boldmessage": "Welcome to your personal game dashboard!"
         }
     else:
-        context = {}
+        context = {
+            "top_users": top_users,
+            "boldmessage": "not logged in"
+            }
     return render(request, 'rango/index.html', context)
 
 def register(request):
@@ -360,11 +366,11 @@ def update_score(request):
         time = data.get("passed_time", 0)
         
         user_profile = UserProfile.objects.get(user=request.user)
-        
+        user_profile.total_boss_kills += 1
         if user_profile.max_score == 0 or time < user_profile.max_score:
             user_profile.max_score = time
             print(time)
-            user_profile.save()
+        user_profile.save()
         print("saved successfuly")
         #minutes-seconds format
         formatted_time = f"{time // 60:02}:{time % 60:02}"

@@ -111,12 +111,18 @@
       <section id="info">
         <div class="box" id="leaderboard">
           <h2>Leaderboard</h2>
-          {% if leaderboard_entries %}
-            <ul>
-              {% for entry in leaderboard_entries %}
-                <li>{{ entry.time_taken }} on {{ entry.run_date|date:"M d, Y" }}</li>
-              {% endfor %}
-            </ul>
+          {% if top_users %}
+            <h3>Top 10 Players - Best Scores</h3>
+            <table>
+                <th>Username</th>
+                <th>Best Score</th>
+                {% for user in top_users %}
+                <tr {% if user.user == request.user %} style="color: #d93025; font-weight: bold;" {% endif %} >
+                    <td>{{ user.user.username }}</td>
+                    <td>{{ user.max_score }}</td>
+                </tr>
+                {% endfor %}
+            </table>
           {% else %}
             <p>No runs recorded yet.</p>
           {% endif %}
@@ -131,6 +137,7 @@
           <h2>Your Achievements</h2>
           {% if user.is_authenticated %}
             <p>ur max score: {{ user.userprofile.max_score }}</p>
+            <p>bosses slain: {{ user.userprofile.total_boss_kills }}</p>
           {% endif %}
 
           {% if achievements %}

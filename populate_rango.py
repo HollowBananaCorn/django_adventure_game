@@ -1,10 +1,14 @@
 import os
+import random
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'django_adventure_game.settings')
 
 import django
 django.setup() 
-from rango.models import Enemy, Action#, Achievement #for now only enemy to implement basics of battle
+
+from django.contrib.auth.models import User
+from rango.models import Enemy, Action, UserProfile#, Achievement #for now only enemy to implement basics of battle
 
 def populate():
     enemies = [
@@ -59,6 +63,21 @@ def populate():
 
     for action in actions:
         add_action(action['name'], action['action_type'], action['dmg_multiplier'], action['miss_chance'], action['crit_chance'], action['luck_increase'], action['atk_increase'], action['def_increase'], action['adp_increase'])
+
+    #create dummy users:
+    for i in range(20):
+        username = f"dummy_user_{i+1}"
+        email = f"{username}@example.com"
+        password = "testpassword"
+
+        dummy_user, created = User.objects.get_or_create(username=username, email=email)
+        if created:
+            dummy_user.set_password(password)
+            dummy_user.save()
+            max_score = random.randint(30, 5000)
+            UserProfile.objects.create(user=dummy_user, max_score=max_score)
+            print(f"user {username} added")
+
 
 def add_enemy(name, max_health, min_damage, max_damage, defense, gold_drop, image_filename):
     e = Enemy.objects.get_or_create(name = name)[0]
