@@ -1,6 +1,6 @@
 import json
 
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from datetime import timedelta
 
 from rango.forms import UserForm, UserProfileForm
-
+from .signals import achievement_check
 from .models import Enemy, Character, UserProfile, Action
 
 def index(request):

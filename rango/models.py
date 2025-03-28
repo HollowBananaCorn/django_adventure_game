@@ -71,16 +71,19 @@ class Action(models.Model): # Attack buttons mid-fight
     def __str__(self):
         return self.name
 
+class LeaderboardEntry(models.Model):
+    character = models.ForeignKey('Character', on_delete=models.CASCADE)
+    time_taken = models.DurationField(help_text="Time taken to complete the run")
+    run_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.character.user.user.username} - {self.time_taken}"
 
 class Achievement(models.Model):
-    # players = models.ManyToManyField(User, blank=True)  # Tracks which users unlocked it
-    # name = models.CharField(max_length=100, default='none')
-    # description = models.TextField(default="")
-    # unlocked = models.BooleanField(default=False)
-    # #image = models.ImageField(upload_to='achievement_images/', blank=True) # icon
+    character = models.ForeignKey(Character, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    date_unlocked = models.DateTimeField(auto_now_add=True)
 
-
-    # def __str__(self):
-    #     return f"{self.player.user.username} - {self.name}"
-
-    pass
+    def __str__(self):
+        return f"{self.character.user.user.username} - {self.name}"#final achivement model to record the achivements by the player
