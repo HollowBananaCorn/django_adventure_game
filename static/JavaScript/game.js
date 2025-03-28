@@ -80,13 +80,20 @@ function getCSRFToken() // need it for POST requests
     return "";
 }
 
-function submitScore()
+function submitScores()
 {
-    var startTime = new Date("{{ player.start_time|date:'c' }}");
+    var startTime = new Date("{{ player.start_time|date:'Y-m-d H:i:s' }} UTC");
+    
+    if (isNaN(startTime)) {
+        alert("Invalid date format: " + "{{ player.start_time }}");
+    } else {
+        alert(startTime);
+    }
     var endTime = new Date(); // now
-    passed_time = (endTime - startTime);
+    var passed_time = Math.floor((endTime - startTime) / 1000); // to seconds
 
-    fetch("{% url 'rango:update_score' %}", {method : "POST", 
+    // alert('before fetch')
+    fetch("/rango/update_score/", {method : "POST", 
         headers : {
         "Content-Type": "application/json",
         "X-CSRFToken": getCSRFToken()

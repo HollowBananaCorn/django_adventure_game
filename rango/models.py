@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 # Create your models here.
 class UserProfile(models.Model): #copied from previous
@@ -21,6 +22,7 @@ class Character(models.Model):
     agility = models.IntegerField(default=5) # dodgeChance
     gold = models.IntegerField(default=0)
 
+    start_time = models.DateTimeField(default=now)
     payed_stranger = models.BooleanField(default=False)
 
     def __str__(self):

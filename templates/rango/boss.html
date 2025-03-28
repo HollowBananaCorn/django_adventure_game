@@ -178,13 +178,13 @@
         <div id="popup-win-battle">
             <h2>YOU WIN!</h2>
             <button onclick="QuitGame()">ok.</button>
+            <button onclick="SubmitScore()">Submit Score</button>
         </div>
 
         <div id="popup-enemy-attack">
             <h2>You were attacked!</h2>
             <p id="enemy-attack-message"></p>
             <button onclick="handlePostAttack()">OK</button>
-            <!-- <button onclick="submitScore()">Submit Score</button> -->
         </div>
         
         <div id="popup-game-over" style="display: none;">
@@ -308,6 +308,32 @@
                     document.getElementById("popup-game-over").style.display = "block";
                 }
             document.getElementById("popup-enemy-attack").style.display = "none";
+        }
+
+        function SubmitScore()
+        {
+            var startTime = new Date("{{ player.start_time|date:'c' }}");
+            
+            if (isNaN(startTime)) {
+                alert("Invalid date format: " + "{{ player.start_time }}");
+            } else {
+                alert(startTime);
+            }
+            var endTime = new Date(); // now
+            var passed_time = Math.floor((endTime - startTime) / 1000); // to seconds
+
+            // alert('before fetch')
+            fetch("{% url 'rango:update_score' %}", {method : "POST", 
+                headers : {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCSRFToken()
+            },
+            body : JSON.stringify({ "passed_time" : passed_time })}
+            ).then(response => response.json())
+            .then(data => {
+                alert("Score submitted! Your time: " + data.formatted_time);
+                QuitGame();
+            });
         }
     </script>
 

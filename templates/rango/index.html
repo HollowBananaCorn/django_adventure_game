@@ -141,6 +141,9 @@
           <div class="box" id="guide">
             <h2>Game Guide</h2>
             <p>This is where you can put gameplay, rules, or help information.</p>
+            {% if user.is_authenticated %}
+            <p>ur max score: {{ user.userprofile.max_score }}</p>
+            {% endif %}
           </div>
         </section>
       </main>

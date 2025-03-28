@@ -21,7 +21,7 @@ urlpatterns = [
     path('play/stranger/boss_area/boss_talk/boss', views.boss, name = 'boss'),
     path('play/shop/stats/', views.stats, name='stats_info'),
     path('updated_play/', views.updatedPlay, name='updated_play'),
-    path("update_score/", views.update_score, name="update_score"),
+    path('update_score/', views.update_score, name='update_score'),
 
     path('update_health/', views.update_health, name='update_health'),
     path('update_gold/', views.update_gold, name='update_gold'),

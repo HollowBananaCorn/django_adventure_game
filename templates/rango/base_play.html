@@ -74,8 +74,7 @@
             <a href="{% url 'rango:dungeon' %}" class="buttons">Enter the Dungeon</a>
         </div>
 
-        <div class="time">Time left: -somehow add time-</div>
-
+        <div class="time">Start Time: {{ player.start_time }}</div>
         <div class="money">Money:  {{ player.gold }} 💰</div>
 
         <div class="health">

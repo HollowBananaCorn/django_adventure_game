@@ -15,9 +15,9 @@ from rango.forms import UserForm, UserProfileForm
 from .models import Enemy, Character, UserProfile, Action
 
 def index(request):
-    context_dict = {'boldmessage': 'how to use context dictionary'}
-
-    return render(request, 'rango/index.html', context= context_dict)
+    #user_profile = UserProfile.objects.get_or_create(user = request.user)[0]
+    #condext_dictionary = {'user_profile' : user_profile}
+    return render(request, 'rango/index.html')
 
 def register(request):
     registered = False
@@ -304,14 +304,18 @@ def delete_character(request):
 def update_score(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        time = data.get("passed_time")
 
+        print(data)
+
+        time = data.get("passed_time", 0)
+        
         user_profile = UserProfile.objects.get(user=request.user)
-
-        if user_profile.max_score == None or time < user_profile.max_score:
+        
+        if user_profile.max_score == 0 or time < user_profile.max_score:
             user_profile.max_score = time
+            print(time)
             user_profile.save()
-
+        print("saved successfuly")
         #minutes-seconds format
         formatted_time = f"{time // 60:02}:{time % 60:02}"
 
