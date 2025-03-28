@@ -30,7 +30,8 @@ SECRET_KEY = '(a(8=z=o0fif(i(!6z^%igv+3wd$o4!@fx2aj*yk7g1=#(59t$'
 DEBUG = True
 
 #ALLOWED_HOSTS = ['2840861P.pythonanywhere.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '2840861p.pythonanywhere.com']
+
 
 
 LOGIN_URL = 'rango:login'
