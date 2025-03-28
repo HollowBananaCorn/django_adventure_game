@@ -5,6 +5,7 @@ from rango.models import UserProfile
 from rango.models import Enemy
 from rango.models import Action
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your tests here.
 class CharacterMethodTests (TestCase):
@@ -31,7 +32,6 @@ class CharacterMethodTests (TestCase):
         """
 
         user = User.objects.create_user(username="Jack")
-
         userProfile = UserProfile(user=user)
         userProfile.save()
 
@@ -66,3 +66,38 @@ class ActionTests(TestCase):
 
         self.assertEqual(action.__str__(), action.name)
 
+
+class IndexViewTests(TestCase):
+
+    def test_index_view_status_code(self):
+
+        response = self.client.get(reverse('rango:index'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_index_view_response_contains(self):
+
+        response = self.client.get(reverse('rango:index'))
+        self.assertContains(response, "Adventure Game Home")
+
+    def test_uses_correct_template(self):
+
+        response = self.client.get(reverse('rango:index'))
+        self.assertTemplateUsed(response, 'rango/index.html')
+
+    def test_index_view_context_not_logged_in(self):
+
+        response = self.client.get(reverse('rango:index'))
+        self.assertEqual(response.context['boldmessage'], "not logged in")
+
+    def test_index_view_context_logged_in(self):
+
+        test_user = User.objects.create_user(username="Jack")
+        userProfile = UserProfile(user=test_user)
+        userProfile.save()
+
+        self.client.force_login(test_user)
+
+        response = self.client.get(reverse('rango:index'))
+        self.assertEqual(response.context['boldmessage'], "Welcome to your personal game dashboard!")
+        
+# Create your tests here.
