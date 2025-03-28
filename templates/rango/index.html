@@ -137,6 +137,7 @@
           <h2>Your Achievements</h2>
           {% if user.is_authenticated %}
             <p>ur max score: {{ user.userprofile.max_score }}</p>
+            <p>enemies slain: {{ user.userprofile.total_kills }}</p>
             <p>bosses slain: {{ user.userprofile.total_boss_kills }}</p>
           {% endif %}
 

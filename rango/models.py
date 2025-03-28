@@ -8,6 +8,7 @@ class UserProfile(models.Model): #copied from previous
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     max_score = models.IntegerField(default = 0)
     total_boss_kills = models.IntegerField(default=0)
+    total_kills = models.IntegerField(default=0)
     website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
@@ -82,10 +83,10 @@ class LeaderboardEntry(models.Model):
         return f"{self.character.user.user.username} - {self.time_taken}"
 
 class Achievement(models.Model):
-    character = models.ForeignKey('Character', on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(default="")
     date_unlocked = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.character.user.user.username} - {self.name}"#final achivement model to record the achivements by the player
+        return f"{self.user.user.username} - {self.name}"#final achivement model to record the achivements by the player

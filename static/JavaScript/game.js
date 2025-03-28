@@ -54,6 +54,29 @@ function UpdateAgility(agility)
     );
 }
 
+function UpdateKills()
+{
+    fetch("/rango/increase_kills/", {method : "POST", 
+        headers : {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCSRFToken()
+    },
+    body : JSON.stringify({})}
+    ).then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            console.log("Total kills updated:", data.total_kills);
+            // Optionally, do something with the updated kills, like updating the UI
+            window.location.href = "/rango/play/";  // Redirect after update
+        } else {
+            console.error("Error updating total kills:", data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Fetch error:", error);
+    });
+}
+
 function QuitGame()
 {
     // can't use "{% static 'JavaScript/game.js' %}" because not django template

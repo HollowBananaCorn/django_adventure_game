@@ -21,7 +21,7 @@ def index(request):# i cant implement/test somethings on my pc due to some issue
         user_profile = get_object_or_404(UserProfile, user=request.user) #this needs to be implemented here <user_profile = get_object_or_404(UserProfile, user=request.user)>
         character, _ = Character.objects.get_or_create(user=user_profile)
 
-        achievements = Achievement.objects.filter(character=character).order_by("-date_unlocked")# take this as a placeholder for danny to complete implementation.
+        achievements = Achievement.objects.filter(user=user_profile).order_by("-date_unlocked")# take this as a placeholder for danny to complete implementation.
         leaderboard_entries = LeaderboardEntry.objects.filter(character=character).order_by("time_taken")[:10]# we need to record run time which can be a separate view but since battle is not done yet this is here.
         
         context = {
@@ -105,14 +105,15 @@ def user_logout(request):
 
 @login_required
 def achievements(request):
-    character = get_object_or_404(Character, user__user=request.user)
-    achievements = Achievement.objects.filter(character=character).order_by("-date_unlocked")
+    user_profile, created = UserProfile.objects.get_or_create(user = request.user)
+    achievements = Achievement.objects.filter(user=user_profile).order_by("-date_unlocked")
     return render(request, "rango/achievements.html", {"achievements": achievements})
 
 @login_required
 def play(request):
     user_profile, created = UserProfile.objects.get_or_create(user = request.user)
     character, char_created = Character.objects.get_or_create(user=user_profile)
+    
 
     # if character payed stranger.
     if character.payed_stranger:
@@ -347,6 +348,34 @@ def update_agility(request):
     return JsonResponse({"status": "error", "message": "Invalid request"}, )
 
 @login_required
+@csrf_exempt
+def increase_kills(request):
+    #should only be when the USER want to update health - 
+    #submits data from the client’s web browser to be processed
+    if request.method == 'POST': 
+        try:
+            user_profile = UserProfile.objects.get(user=request.user)
+            
+            # user_profile.total_kills += 1
+            user_profile.save()
+
+            achievement_check.send(
+                sender=UserProfile,
+                user_profile=user_profile,
+                event_type="enemy_killed",
+                data={"is_boss": False}
+            )
+
+
+            return JsonResponse({"status": "success", 'total_kills': user_profile.total_kills})
+        except Exception as e:
+            # not in book, but good for debug stuff
+            return JsonResponse({"status": "error", "message": str(e)}) 
+        
+    #displays it like the one from the webb task in the hackathon
+    return JsonResponse({"status": "error", "message": "Invalid request"}, )
+
+@login_required
 def delete_character(request):
     
     try:
@@ -366,7 +395,16 @@ def update_score(request):
         time = data.get("passed_time", 0)
         
         user_profile = UserProfile.objects.get(user=request.user)
-        user_profile.total_boss_kills += 1
+        # user_profile.total_boss_kills += 1
+        # user_profile.total_kills += 1
+
+        achievement_check.send(
+                sender=UserProfile,
+                user_profile=user_profile,
+                event_type="enemy_killed",
+                data={"is_boss": True}
+            )
+
         if user_profile.max_score == 0 or time < user_profile.max_score:
             user_profile.max_score = time
             print(time)
