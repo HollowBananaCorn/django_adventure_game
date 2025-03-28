@@ -12,21 +12,21 @@ from datetime import timedelta
 
 from rango.forms import UserForm, UserProfileForm
 from .signals import achievement_check
-from .models import Enemy, Character, UserProfile, Action
+from .models import Enemy, Character, UserProfile, Action, Achievement, LeaderboardEntry
 
 def index(request):
-    if request.user.is_authenticated:
-        character = get_object_or_404(Character, user__user=request.user)
-        achievements = Achievement.objects.filter(character=character).order_by("-date_unlocked")# take this as a placeholder for danny to complete implementation.
-        leaderboard_entries = LeaderboardEntry.objects.filter(character=character).order_by("time_taken")[:5]# we need to record run time which can be a separate view but since battle is not done yet this is here.
-        context = {
-            "player": character,
-            "achievements": achievements,
-            "leaderboard_entries": leaderboard_entries,
-            "boldmessage": "Welcome to your personal game dashboard!"
-        }
-    else:
-        context = {"boldmessage": "Welcome! Please log in to access your game data."}
+    user_profile, _ = UserProfile.objects.get_or_create(user=request.user)
+    character, _ = Character.objects.get_or_create(user=user_profile)
+
+    achievements = Achievement.objects.filter(character=character).order_by("-date_unlocked")# take this as a placeholder for danny to complete implementation.
+    leaderboard_entries = LeaderboardEntry.objects.filter(character=character).order_by("time_taken")[:5]# we need to record run time which can be a separate view but since battle is not done yet this is here.
+    
+    context = {
+        "player": character,
+        "achievements": achievements,
+        "leaderboard_entries": leaderboard_entries,
+        "boldmessage": "Welcome to your personal game dashboard!"
+    }
     return render(request, 'rango/index.html', context)
 
 def register(request):
