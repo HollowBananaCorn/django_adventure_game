@@ -15,9 +15,19 @@ from .signals import achievement_check
 from .models import Enemy, Character, UserProfile, Action
 
 def index(request):
-    #user_profile = UserProfile.objects.get_or_create(user = request.user)[0]
-    #condext_dictionary = {'user_profile' : user_profile}
-    return render(request, 'rango/index.html')
+    if request.user.is_authenticated:
+        character = get_object_or_404(Character, user__user=request.user)
+        achievements = Achievement.objects.filter(character=character).order_by("-date_unlocked")# take this as a placeholder for danny to complete implementation.
+        leaderboard_entries = LeaderboardEntry.objects.filter(character=character).order_by("time_taken")[:5]# we need to record run time which can be a separate view but since battle is not done yet this is here.
+        context = {
+            "player": character,
+            "achievements": achievements,
+            "leaderboard_entries": leaderboard_entries,
+            "boldmessage": "Welcome to your personal game dashboard!"
+        }
+    else:
+        context = {"boldmessage": "Welcome! Please log in to access your game data."}
+    return render(request, 'rango/index.html', context)
 
 def register(request):
     registered = False
@@ -109,6 +119,41 @@ def dungeon(request):  # First Dungeon?
     actions = Action.objects.all()
 
     return render(request, 'rango/dungeon.html', {'enemy' : enemy, 'player' : character, 'actions' : actions})
+
+@login_required
+def battle(request, enemy_id):
+    character = get_object_or_404(Character, user__user=request.user)
+    enemy = get_object_or_404(Enemy, id=enemy_id)#Simulated battle view. Assumes that after a successful kill, the achievement_check signal is dispatched.
+
+    # Simplified battle logic: light attack is used. as explaned by danny to me 
+    player_damage = max(1, character.attack - enemy.defense)
+    enemy.health -= player_damage
+
+    if enemy.health <= 0:
+        character.gold += enemy.gold_drop
+        # Determine if enemy is a boss by its name.
+        is_boss = "boss" in enemy.name.lower()
+        enemy.delete()
+        battle_outcome = "win"
+
+        # Dispatch the achievement signal.
+        achievement_check.send(
+            sender=Character,
+            character=character,
+            event_type="enemy_killed",
+            data={"is_boss": is_boss}
+        )
+    else:
+        battle_outcome = "ongoing"
+
+    character.save()
+
+    return JsonResponse({
+        "battle_outcome": battle_outcome,
+        "player_health": character.current_health,
+        "gold": character.gold,
+    })# Hopefullly not too confusing as danny will work on this for better integration with his game logic.(sorry if this made it harder than it needs to be i thought it would help)
+
 
 
 def shop(request):
@@ -323,3 +368,4 @@ def update_score(request):
     
     #bad request, client should not access this url.
     return JsonResponse({"success": "error"}, status=400)
+
