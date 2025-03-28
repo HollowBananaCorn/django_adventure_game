@@ -29,7 +29,7 @@ SECRET_KEY = '(a(8=z=o0fif(i(!6z^%igv+3wd$o4!@fx2aj*yk7g1=#(59t$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['2840861P.pythonanywhere.com']
 
 LOGIN_URL = 'rango:login'
 
@@ -124,10 +124,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic
 STATICFILES_DIRS = [STATIC_DIR, ]
 STATIC_URL = '/static/'
 
 # Media files
 
-MEDIA_ROOT = MEDIA_DIR
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
