@@ -18,3 +18,84 @@
         </div> 
     </body>
 </html>
+<!--<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+  <head>
+    <title>Your Achievements</title>
+    <link rel="stylesheet" href="{% static 'CSS_styles/styles.css' %}">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #ccc;
+        padding: 10px 20px;
+      }
+      header h1 {
+        font-size: 24px;
+        color: #333;
+      }
+      main {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .achievement {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+      }
+      .achievement:last-child {
+        border-bottom: none;
+      }
+      .achievement h2 {
+        margin: 0;
+        font-size: 18px;
+        color: #d93025;
+      }
+      .achievement p {
+        margin: 5px 0 0 0;
+        font-size: 14px;
+        color: #555;
+      }
+      .achievement small {
+        color: #888;
+      }
+      a {
+        text-decoration: none;
+        color: #333;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Your Achievements</h1>
+    </header>
+    <main>
+      {% if achievements %}
+        {% for ach in achievements %}
+          <div class="achievement">
+            <h2>{{ ach.name }}</h2>
+            <p>{{ ach.description }}</p>
+            <small>Unlocked on: {{ ach.date_unlocked|date:"M d, Y" }}</small>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No achievements unlocked yet.</p>
+      {% endif %}
+      <br>
+      <a href="{% url 'rango:index' %}">Back to Home</a>
+    </main>
+  </body>
+</html>
+
+-->

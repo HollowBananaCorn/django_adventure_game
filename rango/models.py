@@ -24,6 +24,8 @@ class Character(models.Model):
 
     start_time = models.DateTimeField(default=now)
     payed_stranger = models.BooleanField(default=False)
+    total_kills = models.IntegerField(default=0)     # Total enemy kills across runs
+    boss_kills = models.IntegerField(default=0)      # Total boss kills across runs
 
     def __str__(self):
         return f"{self.user.user.username}'s Character"
@@ -80,7 +82,7 @@ class LeaderboardEntry(models.Model):
         return f"{self.character.user.user.username} - {self.time_taken}"
 
 class Achievement(models.Model):
-    character = models.ForeignKey(Character, on_delete=models.CASCADE)
+    character = models.ForeignKey('Character', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField()
     date_unlocked = models.DateTimeField(auto_now_add=True)

@@ -146,3 +146,153 @@
       </main>
   </body>
 </html>
+<!--<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+  <head>
+    <title>Adventure Game Home</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #ccc;
+        padding: 10px 20px;
+      }
+      header h1 {
+        font-size: 24px;
+        color: #d93025;
+      }
+      nav {
+        display: flex;
+        gap: 10px;
+      }
+      nav button {
+        padding: 6px 12px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        background-color: #fff;
+      }
+      nav button:hover {
+        background-color: #eee;
+      }
+      main {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0 20px;
+      }
+      #hero {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      #hero img {
+        max-width: 100%;
+        height: auto;
+        border: 2px solid #999;
+      }
+      #info {
+        display: flex;
+        gap: 20px;
+      }
+      .box {
+        flex: 1;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        min-height: 200px;
+      }
+      .box h2 {
+        margin-bottom: 10px;
+        font-size: 18px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+      }
+      .box ul {
+        list-style: none;
+        padding-left: 10px;
+      }
+      .box li {
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Homepage</h1>
+      <nav>
+        <a href="{% url 'rango:achievements' %}"><button>Achievements</button></a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'rango:logout' %}"><button>Log Out</button></a>
+        {% else %}
+          <a href="{% url 'rango:register' %}"><button>Register</button></a>
+          <a href="{% url 'rango:login' %}"><button>Log In</button></a>
+        {% endif %}
+        <button>Setting</button>
+        <a href="{% url 'rango:play' %}"><button>Play</button></a>
+      </nav>
+    </header>
+    
+    <div style="padding: 10px;">
+      {% if user.is_authenticated %}
+        <p>Logged in as: {{ user.username }}</p>
+      {% else %}
+        <p>Please log in to see your personal game stats.</p>
+      {% endif %}
+    </div>
+    
+    <main>
+      <section id="hero">
+        <img src="{% static 'images/warrior.png' %}" alt="Warrior Knight Image" />
+      </section>
+
+      <section id="info">
+        <div class="box" id="leaderboard">
+          <h2>Leaderboard</h2>
+          {% if leaderboard_entries %}
+            <ul>
+              {% for entry in leaderboard_entries %}
+                <li>{{ entry.time_taken }} on {{ entry.run_date|date:"M d, Y" }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No runs recorded yet.</p>
+          {% endif %}
+        </div>
+
+        <div class="box" id="middle-panel">
+          <h2>Game Info / Chat</h2>
+          <p>This section can include game introductions, live chat, or other info.</p>
+        </div>
+
+        <div class="box" id="achievements-box">
+          <h2>Your Achievements</h2>
+          {% if achievements %}
+            <ul>
+              {% for ach in achievements %}
+                <li>
+                  <strong>{{ ach.name }}</strong><br>
+                  {{ ach.description }}<br>
+                  <small>Unlocked on: {{ ach.date_unlocked|date:"M d, Y" }}</small>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No achievements unlocked yet.</p>
+          {% endif %}
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+-->
