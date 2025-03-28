@@ -6,6 +6,7 @@ from rango.models import Enemy
 from rango.models import Action
 from django.contrib.auth.models import User
 
+# Create your tests here.
 class CharacterMethodTests (TestCase):
 
     def test_for_defaults(self):
@@ -65,4 +66,3 @@ class ActionTests(TestCase):
 
         self.assertEqual(action.__str__(), action.name)
 
-# Create your tests here.
