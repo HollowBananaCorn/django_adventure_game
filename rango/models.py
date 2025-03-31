@@ -21,7 +21,7 @@ class Character(models.Model):
     current_health = models.IntegerField(default=100)
     attack = models.IntegerField(default=10) # base damage before calculations
     defense = models.IntegerField(default=10) # %damage ignored
-    agility = models.IntegerField(default=5) # dodgeChance
+    agility = models.IntegerField(default=10) # dodgeChance
     gold = models.IntegerField(default=0)
 
     start_time = models.DateTimeField(default=now)

@@ -194,6 +194,9 @@
 
     </div>
 
+
+    <script src="{% static 'JavaScript/game.js' %}"></script>
+
     <script>
         var enemyHealth = 200;
         var enemyMinDamage = 30;
@@ -221,11 +224,15 @@
                 var luckIncrease = parseInt(this.dataset.luckIncrease);
                 var adpIncrease = parseInt(this.dataset.adpIncrease);
 
+                var calculateDefense = calculateMostStats(playerDefense);
+                var calculateAgility = calculateMostStats(playerAgility);
+                var calculateAttack  = calculateAttackStat(playerAttack);
+
                 if(!actionName) return; //if not an action button, donothing
 
                 if(actionType === 'attack')
                 {
-                    var damageToEnemy = Math.floor(playerAttack * dmgMultiplier * (100 - enemyDefense) / 100);
+                    var damageToEnemy = Math.floor(calculateAttack * dmgMultiplier * (100 - enemyDefense) / 100);
 
                     if(Math.random() < missChance) // if miss
                     {
@@ -275,14 +282,14 @@
             }
             else
             {
-                if(Math.random() < (playerAgility)/100)
+                if(Math.random() < (calculateAgility)/100)
                 {
                     alert("Enemy missed!")
                 }
                 else
                 {    // Enemy attacks the player
-                    var damageFromEnemy = Math.floor(Math.random() * (enemyMaxDamage - enemyMinDamage + 1) + enemyMinDamage);
-                    damageFromEnemy = Math.floor(damageFromEnemy * (100 - playerDefense) / 100); // because defence
+                    var damageFromEnemy = Math.ceil(Math.random() * (enemyMaxDamage - enemyMinDamage + 1) + enemyMinDamage);
+                    damageFromEnemy = Math.ceil(damageFromEnemy * (100 - calculateDefense) / 100); // because defence
 
                     playerHealth -= damageFromEnemy;
                     if(playerHealth < 0) playerHealth = 0;
@@ -336,8 +343,6 @@
             });
         }
     </script>
-
-<script src="{% static 'JavaScript/game.js' %}"></script>
 
 </body>
 </html>

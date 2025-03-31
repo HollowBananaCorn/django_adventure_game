@@ -177,14 +177,10 @@
         </div>
 
         <div class="stats">
-            <h2>Enemy: {{ enemy.name }}</h2> 
-            
-            <li>Max Health: {{ enemy.max_health }}</li>
-            <li>Min Damage: {{ enemy.min_damage }}</li>
-            <li>Max Damage: {{ enemy.max_damage }}</li>
-            <li>Defense: {{ enemy.defense }}</li>
-            <li>Gold Drop: {{ enemy.gold_drop }}</li>
-            
+            <p>Stats</p>
+            <p id="atk-lable">Attack: {{ player.attack }}</p>
+            <p id="def-lable">Defense: {{ player.defense }}</p>
+            <p id="adp-lable">Agility: {{ player.agility }}</p>
         </div>
 
         <!-- popups during combat -->
@@ -206,6 +202,7 @@
 
     </div>
 
+    <script src="{% static 'JavaScript/game.js' %}"></script>
     <script>
         var enemyHealth = parseInt("{{ enemy.max_health }}");
         var enemyMinDamage = parseInt("{{ enemy.min_damage }}");
@@ -216,9 +213,12 @@
         var playerHealth = parseInt("{{ player.current_health }}");
         var playerAttack = parseInt("{{ player.attack }}");
         var playerDefense = parseInt("{{ player.defense }}");
-        var playerAgility = parseInt("{{ player.agility }}")
+        var playerAgility = parseInt("{{ player.agility }}");
         var playerGold = parseInt("{{ player.gold }}");
         var playerLuck = 0;
+
+        
+        
         
         document.querySelectorAll('.buttons').forEach(button =>{
             button.addEventListener('click', function(){
@@ -233,11 +233,16 @@
                 var luckIncrease = parseInt(this.dataset.luckIncrease);
                 var adpIncrease = parseInt(this.dataset.adpIncrease);
 
+
+                var calculateDefense = calculateMostStats(playerDefense);
+                var calculateAgility = calculateMostStats(playerAgility);
+                var calculateAttack  = calculateAttackStat(playerAttack);
+
                 if(!actionName) return; //if not an action button, donothing
 
                 if(actionType === 'attack')
                 {
-                    var damageToEnemy = Math.floor(playerAttack * dmgMultiplier * (100 - enemyDefense) / 100);
+                    var damageToEnemy = Math.floor(calculateAttack * dmgMultiplier * (100 - enemyDefense) / 100);
 
                     if(Math.random() < missChance - 0.002*playerLuck) // if miss
                     {
@@ -259,14 +264,17 @@
                     if(defIncrease){
                         playerDefense += defIncrease;
                         text +=  "\nDefense increased by " + defIncrease
+                        document.getElementById("def-lable").innerText = "Defense: " + playerDefense;
                     }
                     if(atkIncrease){
                         playerAttack += atkIncrease;
                         text +=  "\nAttack Power increased by " + atkIncrease
+                        document.getElementById("atk-lable").innerText = "Attack: " + playerAttack;
                     }
                     if(adpIncrease){
                         playerAgility += adpIncrease;
                         text +=  "\nAgility increased by " + adpIncrease
+                        document.getElementById("adp-lable").innerText = "Agility: " + playerAgility;
                     }
                     if(luckIncrease){
                         playerLuck += luckIncrease;
@@ -286,14 +294,14 @@
             }
             else
             {
-                if(Math.random() < (playerAgility)/100 + 0.002*playerLuck)
+                if(Math.random() < (calculateAgility)/100 + 0.002*playerLuck)
                 {
                     alert("Enemy missed!")
                 }
                 else
                 {    // Enemy attacks the player
-                    var damageFromEnemy = Math.floor((Math.random()**((100+playerLuck)/100)) * (enemyMaxDamage - enemyMinDamage + 1) + enemyMinDamage);
-                    damageFromEnemy = Math.floor(damageFromEnemy * (100 - playerDefense) / 100); // because defence
+                    var damageFromEnemy = Math.ceil((Math.random()**((100+playerLuck)/100)) * (enemyMaxDamage - enemyMinDamage + 1) + enemyMinDamage);
+                    damageFromEnemy = Math.ceil(damageFromEnemy * (100 - calculateDefense) / 100); // because defence
 
                     playerHealth -= damageFromEnemy;
                     if(playerHealth < 0) playerHealth = 0;
@@ -322,7 +330,7 @@
         }
     </script>
 
-<script src="{% static 'JavaScript/game.js' %}"></script>
+
 
 </body>
 </html>

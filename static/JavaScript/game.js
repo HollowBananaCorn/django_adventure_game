@@ -117,3 +117,13 @@ function submitScores()
         window.location.href = "{% url 'rango:index' %}";
     });
 }
+
+function calculateMostStats(x)
+{
+    return Math.floor(-Math.exp(-(x + 90) / 90) * 274 + 100);
+}
+
+function calculateAttackStat(x)
+{
+    return x**0.6 * 3;
+}
