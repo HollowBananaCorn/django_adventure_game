@@ -1,4 +1,5 @@
 import json
+import random
 
 from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -124,11 +125,16 @@ def play(request):
 @login_required
 def dungeon(request):  # First Dungeon?
 
-    enemy = Enemy.objects.first()
+    enemies = Enemy.objects.all()
     
     user_profile = get_object_or_404(UserProfile, user=request.user)
     character = get_object_or_404(Character, user=user_profile)
     actions = Action.objects.all()
+
+    if not character.payed_stranger:
+        enemy = enemies[random.randint(0, 1)]
+    else:
+        enemy = enemies[random.randint(1, 2)]
 
     return render(request, 'rango/dungeon.html', {'enemy' : enemy, 'player' : character, 'actions' : actions})
 
@@ -365,7 +371,6 @@ def increase_kills(request):
                 event_type="enemy_killed",
                 data={"is_boss": False}
             )
-
 
             return JsonResponse({"status": "success", 'total_kills': user_profile.total_kills})
         except Exception as e:

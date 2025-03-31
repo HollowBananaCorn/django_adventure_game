@@ -63,18 +63,7 @@ function UpdateKills()
     },
     body : JSON.stringify({})}
     ).then(response => response.json())
-    .then(data => {
-        if (data.status === "success") {
-            console.log("Total kills updated:", data.total_kills);
-            // Optionally, do something with the updated kills, like updating the UI
-            window.location.href = "/rango/play/";  // Redirect after update
-        } else {
-            console.error("Error updating total kills:", data.message);
-        }
-    })
-    .catch(error => {
-        console.error("Fetch error:", error);
-    });
+    .then(data => {window.location.href = "/rango/play/";});
 }
 
 function QuitGame()

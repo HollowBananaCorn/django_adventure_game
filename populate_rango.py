@@ -22,10 +22,17 @@ def populate():
          {'name' : 'Soldier',
          'max_health' : 70,
          'min_damage' : 15,
-         'max_damage' : 20,
+         'max_damage' : 25,
          'defense' : 20,
-         'gold_drop' : 15,
+         'gold_drop' : 70,
          'image_filename' : 'knight.jpg'},
+         {'name' : 'Oger',
+         'max_health' : 90,
+         'min_damage' : 30,
+         'max_damage' : 40,
+         'defense' : 15,
+         'gold_drop' : 70,
+         'image_filename' : 'shrek.jpg'},
     ]
 
     actions = [

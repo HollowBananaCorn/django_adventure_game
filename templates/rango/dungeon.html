@@ -292,7 +292,7 @@
                 }
                 else
                 {    // Enemy attacks the player
-                    var damageFromEnemy = Math.floor((Math.random()**(100+playerLuck)/100) * (enemyMaxDamage - enemyMinDamage + 1) + enemyMinDamage);
+                    var damageFromEnemy = Math.floor((Math.random()**((100+playerLuck)/100)) * (enemyMaxDamage - enemyMinDamage + 1) + enemyMinDamage);
                     damageFromEnemy = Math.floor(damageFromEnemy * (100 - playerDefense) / 100); // because defence
 
                     playerHealth -= damageFromEnemy;
