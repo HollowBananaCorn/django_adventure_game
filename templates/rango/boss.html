@@ -100,6 +100,10 @@
 
         <img src="{% static 'images/boss.jpg' %}" alt="battle background" />
 
+        <div class="run_away">
+            <a href="#" id="run-button" class="buttons">Run away</a>
+        </div>
+
         <div class="Action1">
             {% if actions.0 %}
                 <a href="#" id="attack-button1" class="buttons" 
@@ -342,6 +346,56 @@
                 QuitGame();
             });
         }
+
+        var triesToRun = 0;
+        
+        var bribe = 1000;
+
+        document.getElementById("run-button").addEventListener("click", function()
+        {
+            triesToRun++;
+
+            if(playerHealth<=1)
+            {
+                playerHealth = 0;
+                UpdateHealth(playerHealth)
+                document.getElementById("enemy-attack-message").innerText = "DIE!";
+                document.getElementById("popup-enemy-attack").style.display = "block";
+            }
+            else
+            {
+                if(triesToRun == 2)
+                {
+                    alert("how about ... \n ... "  + bribe + " Gold");
+                    document.getElementById("run-button").textContent = "Bribe";
+                }
+                else if(triesToRun > 2)
+                {
+                    if(playerGold >= bribe)
+                    {
+                        document.getElementById("popup-win-battle").style.display = "block";
+                    }
+                    else
+                    {
+                        playerHealth = 1;
+                        document.getElementById("player-current-health").innerText = playerHealth + "/" + parseInt("{{ player.max_health }}");
+                        UpdateHealth(playerHealth)
+                        alert("Not enough!!! I demand more! " + bribe + " gold now!");
+                        window.location.href = "{% url 'rango:boss_area' %}";
+                        
+                    }
+                }
+                else{
+                    alert("you fool! Did you really thing you could run away?");
+                }
+            }
+        });
+
+        // function tryToRun(event)
+        // {
+        //     event.preventDefault();
+        //     alert("Can't run away from the boss!");
+        // }
     </script>
 
 </body>

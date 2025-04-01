@@ -202,27 +202,44 @@ def stats(request):
      return render(request, 'rango/stats.html')
 
 def bossArea(request):
+
     user_profile, created = UserProfile.objects.get_or_create(user = request.user)
     character, char_created = Character.objects.get_or_create(user=user_profile)
+
+    if char_created or not character.payed_stranger:
+        return JsonResponse({"status": "error", "message": "didn't pay stranger"}, )
 
     return render(request, 'rango/boss_area.html', {'player': character})
 
 def bossTalk(request):
+
     user_profile, created = UserProfile.objects.get_or_create(user = request.user)
     character, char_created = Character.objects.get_or_create(user=user_profile)
+
+    if char_created or not character.payed_stranger:
+        return JsonResponse({"status": "error", "message": "didn't pay stranger"}, )
 
     return render(request, 'rango/boss_talk.html', {'player': character})
 
 def boss(request):
+
     user_profile, created = UserProfile.objects.get_or_create(user = request.user)
     character, char_created = Character.objects.get_or_create(user=user_profile)
+
+    if char_created or not character.payed_stranger:
+        return JsonResponse({"status": "error", "message": "didn't pay stranger"}, )
+    
     actions = Action.objects.all()
 
     return render(request, 'rango/boss.html',  {'player': character, 'actions' : actions})
 
 def updatedPlay(request):
+
     user_profile, created = UserProfile.objects.get_or_create(user = request.user)
     character, char_created = Character.objects.get_or_create(user=user_profile)
+
+    if char_created or not character.payed_stranger:
+        return JsonResponse({"status": "error", "message": "didn't pay stranger"}, )
 
     if not character.payed_stranger:
         return redirect("rango:play")
