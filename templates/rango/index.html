@@ -77,7 +77,27 @@
       .box li {
         margin-bottom: 5px;
       }
+      
     </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $("#settingButton").click(function(){
+          $(this).animate({
+            width: "0px",
+            padding: "0px",
+            margin: "0px",
+            opacity: 0
+          }, "slow", function() {
+            $(this).remove(); // Completely removes the button after animation
+          });
+
+          // Shift other buttons smoothly into place
+          $("nav button:not(#settingButton)").animate({ marginLeft: "0px" }, "slow");
+        });
+      });
+    </script>
   </head>
   <body>
     <header>
@@ -90,7 +110,7 @@
           <a href="{% url 'rango:register' %}"><button>Register</button></a>
           <a href="{% url 'rango:login' %}"><button>Log In</button></a>
         {% endif %}
-        <button>Setting</button>
+        <button id="settingButton">Setting</button>
         <a href="{% url 'rango:play' %}"><button>Play</button></a>
       </nav>
     </header>
@@ -129,19 +149,24 @@
         </div>
 
         <div class="box" id="middle-panel">
-          <h2>Game Info / Chat</h2>
-          <p>This section can include game introductions, live chat, or other info.</p>
+          <h2>Game Info</h2>
+          <p>
+            Your goal is to beat the game as fast as possible. Battle enemies in the dungeon,
+            earn gold, upgrade your stats, and defeat the final boss. Earn achievements by 
+            beating dudes and speedrun to place yourself on the leaderboard!
+          </p>
         </div>
 
         <div class="box" id="achievements-box">
           <h2>Your Achievements</h2>
           {% if user.is_authenticated %}
-            <p>ur max score: {{ user.userprofile.max_score }}</p>
+            <p>your best time: {{ user.userprofile.max_score }}</p>
             <p>enemies slain: {{ user.userprofile.total_kills }}</p>
             <p>bosses slain: {{ user.userprofile.total_boss_kills }}</p>
           {% endif %}
 
           {% if achievements %}
+          <br>
             <ul>
               {% for ach in achievements %}
                 <li>

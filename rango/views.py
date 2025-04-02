@@ -75,6 +75,8 @@ def register(request):
                    'registered':registered})
 
 def user_login(request):
+    error_message = ""
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -85,13 +87,14 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse('rango:index'))
             else:
-                return HttpResponse("Your Rango account is disabled.")
+                error_message = "Your Rango account is disabled."
         else:
             print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
+            error_message = "Invalid login details supplied."
+            
         
-    else:
-        return render(request, 'rango/login.html')
+    
+    return render(request, 'rango/login.html', {'error_message':error_message})
 
 @login_required
 def restricted(request):
