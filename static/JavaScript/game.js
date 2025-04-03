@@ -127,3 +127,10 @@ function calculateAttackStat(x)
 {
     return x**0.6 * 3;
 }
+
+function calcElapsedTime(startTime)
+{
+    var start = new Date(startTime);
+    var now = new Date();
+    return Math.floor((start - now) / 1000); // to seconds
+}

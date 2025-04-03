@@ -13,7 +13,7 @@ urlpatterns = [
     path('achievements/', views.achievements, name = 'achievements'),
     path('play/', views.play, name = 'play'),
     path('play/dungeon/', views.dungeon, name = 'dungeon'),
-
+    path('play/cheat/', views.cheat, name='cheat'),
     path('play/shop/', views.shop, name = 'shop'),
     path('play/stranger/', views.stranger, name = 'stranger'),
     path('play/stranger/boss_area/', views.bossArea, name = 'boss_area'),

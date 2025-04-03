@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from rango.forms import UserForm, UserProfileForm
 from .signals import achievement_check
@@ -124,6 +124,18 @@ def play(request):
         return redirect("rango:updated_play")
 
     return render(request, 'rango/play.html', {'player': character}) 
+
+@login_required
+def cheat(request):
+    user_profile, created = UserProfile.objects.get_or_create(user = request.user)
+    character, char_created = Character.objects.get_or_create(user=user_profile)
+    
+    character.start_time = datetime(1, 1, 1, 0, 0)
+    character.gold += 1000
+    character.save()
+
+
+    return redirect("rango:play")
 
 @login_required
 def dungeon(request):  # First Dungeon?

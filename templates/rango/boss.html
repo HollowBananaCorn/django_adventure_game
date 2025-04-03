@@ -53,33 +53,51 @@
             left: 75%;
         }
 
-        #popup-win-battle{
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            color: black;
-            padding: 20px;
-            border: 2px solid black;
-            text-align: center;
+        /* new damage displays */
+        .damage-display{
+            position: absolute;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px black;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
-        #popup-game-over{
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            color: black;
-            padding: 20px;
-            border: 2px solid black;
-            text-align: center;
+        #enemy-damage-display{
+            top: 14%;
+            left: 55%;
+            color: red;
         }
 
-        #popup-enemy-attack{
+        #player-damage-display{
+            bottom: 10%;
+            left: 10%;
+            color: orange;
+        }
+
+        .buff-display{
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+            font-weight: bold;
+            color: cyan;
+            text-shadow: 1px 1px black;
+            transition: opacity 1s ease-out;
+        }
+
+        #overlay{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            display: none;
+        }
+
+        #popup-game-over, #popup-win-battle{
             display: none;
             position: fixed;
             top: 50%;
@@ -90,6 +108,7 @@
             padding: 20px;
             border: 2px solid black;
             text-align: center;
+            z-index: 11;
         }
 
     </style>
@@ -184,17 +203,19 @@
             <button onclick="QuitGame()">ok.</button>
             <button onclick="SubmitScore()">Submit Score</button>
         </div>
-
-        <div id="popup-enemy-attack">
-            <h2>You were attacked!</h2>
-            <p id="enemy-attack-message"></p>
-            <button onclick="handlePostAttack()">OK</button>
-        </div>
         
         <div id="popup-game-over" style="display: none;">
             <h2>YOU DIED</h2>
             <button onclick="QuitGame()">Quit</button>
         </div>
+
+        <div id="overlay"></div>
+
+        <div id="enemy-damage-display" class="damage-display"></div>
+
+        <div id="player-damage-display" class="damage-display"></div>
+
+        <div id="buff-display" class="buff-display"></div>
 
     </div>
 
@@ -237,6 +258,7 @@
                 if(actionType === 'attack')
                 {
                     var damageToEnemy = Math.floor(calculateAttack * dmgMultiplier * (100 - enemyDefense) / 100);
+                    var text = "";
 
                     if(Math.random() < missChance) // if miss
                     {
@@ -246,11 +268,14 @@
                     else if(Math.random() < critChance)// if critical
                     {
                         damageToEnemy *= 2;
-                        alert("critical hit with " + actionName);
+                        text = "Critical!" + "\n"
                     }
                     enemyHealth -= damageToEnemy;
+                    text += "-" + damageToEnemy;
                     if(enemyHealth < 0) enemyHealth = 0;
                     document.getElementById("enemy-current-health").innerText = enemyHealth + "/" + 200;
+
+                    if(damageToEnemy>0) showDamage("enemy-damage-display", text);
                 }
                 else if(actionType === 'buff')
                 {
@@ -283,12 +308,13 @@
             if(enemyHealth === 0)
             {
                 document.getElementById("popup-win-battle").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
             }
             else
             {
                 if(Math.random() < (calculateAgility)/100)
                 {
-                    alert("Enemy missed!")
+                    showDamage("player-damage-display", "dodged!");
                 }
                 else
                 {    // Enemy attacks the player
@@ -305,21 +331,16 @@
                     UpdateHealth(playerHealth);
 
                     // Show enemy attack pop-up
-                    document.getElementById("enemy-attack-message").innerText = "The enemy attacked you for " + damageFromEnemy + " damage!";
-                    document.getElementById("popup-enemy-attack").style.display = "block";
+                    showDamage("player-damage-display", damageFromEnemy);
+                    
+                    if(playerHealth === 0)
+                    {
+                        document.getElementById("popup-game-over").style.display = "block";
+                        document.getElementById("overlay").style.display = "block";
+                    }
                 }
             }
         })});
-    
-        function handlePostAttack()
-        {
-            // Check if player is dead
-            if(playerHealth === 0)
-                {
-                    document.getElementById("popup-game-over").style.display = "block";
-                }
-            document.getElementById("popup-enemy-attack").style.display = "none";
-        }
 
         function SubmitScore()
         {
@@ -359,8 +380,10 @@
             {
                 playerHealth = 0;
                 UpdateHealth(playerHealth)
-                document.getElementById("enemy-attack-message").innerText = "DIE!";
-                document.getElementById("popup-enemy-attack").style.display = "block";
+                alert("DIE!")
+                showDamage("player-damage-display", 999);
+                document.getElementById("popup-game-over").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
             }
             else
             {
@@ -396,6 +419,33 @@
         //     event.preventDefault();
         //     alert("Can't run away from the boss!");
         // }
+
+        function showDamage(elementId, text)
+        {
+            var damageElement = document.getElementById(elementId);
+            damageElement.innerText = text;
+            damageElement.style.opacity = "1";
+            damageElement.style.transform = "translateY(-20px)";
+                
+            setTimeout(function()
+            {
+                damageElement.style.opacity = "0";
+                damageElement.style.transform = "translateY(0)";
+            }, 800);
+        }
+
+        function showBuffs(text)
+        {
+            var buffElement = document.getElementById("buff-display");
+            buffElement.innerText = text;
+            buffElement.style.opacity = "1";
+
+            setTimeout(function()
+            {
+                buffElement.style.opacity = "0";
+            }, 1500);
+        }
+
     </script>
 
 </body>
